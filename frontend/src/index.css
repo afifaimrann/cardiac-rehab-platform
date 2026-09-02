@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* Clinical palette: restrained, high-contrast, one accent reserved for action.
+   Severity colours are the only saturated hues, so a flag always reads as the
+   most urgent thing on the screen. */
+@theme {
+  --color-ink-50:  #f6f7f9;
+  --color-ink-100: #eceef2;
+  --color-ink-200: #d9dde5;
+  --color-ink-300: #b8c0ce;
+  --color-ink-400: #8a95a8;
+  --color-ink-500: #64708a;
+  --color-ink-600: #4a5568;
+  --color-ink-700: #364152;
+  --color-ink-800: #212b3b;
+  --color-ink-900: #131b28;
+
+  --color-accent-50:  #eef4fb;
+  --color-accent-100: #d6e4f5;
+  --color-accent-500: #2f6db5;
+  --color-accent-600: #275c99;
+  --color-accent-700: #1f4a7c;
+
+  --color-mild-bg:     #fdf6e3;
+  --color-mild-fg:     #8a6d0f;
+  --color-moderate-bg: #fdeee3;
+  --color-moderate-fg: #a04e12;
+  --color-severe-bg:   #fdeaea;
+  --color-severe-fg:   #a51d1d;
+  --color-good-bg:     #eaf6ee;
+  --color-good-fg:     #1d6b38;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--color-ink-50);
+  color: var(--color-ink-800);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tabular figures everywhere numbers are compared down a column. */
+.tnum { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,30 @@
+# Secrets
+.env
+*.env
+!.env.example
+
+# Databases and any patient data
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

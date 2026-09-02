@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cardiac
+      POSTGRES_PASSWORD: cardiac
+      POSTGRES_DB: cardiac
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cardiac"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://cardiac:cardiac@db:5432/cardiac
+      # Override in a real deployment; this value is for local runs only.
+      JWT_SECRET_KEY: local-development-secret-not-for-production-use
+      ENVIRONMENT: development
+      CORS_ORIGINS: http://localhost:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    # Migrations run before the server starts, so a fresh volume works first try.
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  pgdata:
