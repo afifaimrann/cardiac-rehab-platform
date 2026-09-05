@@ -107,3 +107,27 @@ async def test_empty_symptom_is_rejected(client, patient):
         "/api/v1/symptoms", json={"description": "", "severity": "mild"}, headers=patient["headers"]
     )
     assert r.status_code == 422
+
+
+async def test_patient_sees_flags_raised_on_their_own_records(client, patient):
+    await client.post(
+        "/api/v1/vitals", json={"systolic": 190, "diastolic": 125}, headers=patient["headers"]
+    )
+    body = (await client.get("/api/v1/flags", headers=patient["headers"])).json()
+    assert [f["rule_code"] for f in body["items"]] == ["BP_HYPERTENSIVE_CRISIS"]
+
+
+async def test_patients_cannot_see_each_others_flags(client, patient):
+    await client.post(
+        "/api/v1/vitals", json={"systolic": 190, "diastolic": 125}, headers=patient["headers"]
+    )
+    other = await client.post(
+        "/api/v1/auth/register",
+        json={"email": "third@test.com", "password": "a-long-enough-password", "full_name": "Third"},
+    )
+    headers = {"Authorization": f"Bearer {other.json()['access_token']}"}
+    assert (await client.get("/api/v1/flags", headers=headers)).json()["items"] == []
+
+
+async def test_clinician_cannot_use_the_patient_flag_route(client, clinician):
+    assert (await client.get("/api/v1/flags", headers=clinician["headers"])).status_code == 403

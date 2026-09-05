@@ -115,3 +115,40 @@ async def test_only_admin_can_provision_clinicians(client, patient, clinician, a
     r = await client.post("/api/v1/auth/clinicians", json=body, headers=admin["headers"])
     assert r.status_code == 201
     assert r.json()["role"] == "clinician"
+
+
+class TestProductionSecretGuard:
+    """A signing key that ships in a public repository is not a warning to fix
+    later: every token that deployment ever issues is already forgeable."""
+
+    def test_production_refuses_the_placeholder_secret(self, monkeypatch):
+        import app.core.config as config
+
+        monkeypatch.setenv("ENVIRONMENT", "production")
+        monkeypatch.setenv("JWT_SECRET_KEY", config.DEFAULT_JWT_SECRET)
+        config.get_settings.cache_clear()
+
+        with pytest.raises(RuntimeError, match="development placeholder"):
+            config.get_settings()
+
+        config.get_settings.cache_clear()
+
+    def test_production_starts_with_a_real_secret(self, monkeypatch):
+        import app.core.config as config
+
+        monkeypatch.setenv("ENVIRONMENT", "production")
+        monkeypatch.setenv("JWT_SECRET_KEY", "a" * 48)
+        config.get_settings.cache_clear()
+
+        assert config.get_settings().JWT_SECRET_KEY == "a" * 48
+        config.get_settings.cache_clear()
+
+    def test_development_tolerates_the_placeholder(self, monkeypatch):
+        import app.core.config as config
+
+        monkeypatch.setenv("ENVIRONMENT", "development")
+        monkeypatch.setenv("JWT_SECRET_KEY", config.DEFAULT_JWT_SECRET)
+        config.get_settings.cache_clear()
+
+        assert config.get_settings().JWT_SECRET_KEY == config.DEFAULT_JWT_SECRET
+        config.get_settings.cache_clear()

@@ -5,11 +5,12 @@ from datetime import date, datetime
 from typing import TYPE_CHECKING, List, Optional
 
 from sqlalchemy import (
-    Boolean, Date, DateTime, ForeignKey, Index, Integer, String, Text,
+    Boolean, Date, ForeignKey, Index, Integer, String, Text,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base, Timestamped, UUIDPrimaryKey, utcnow
+from app.db.types import UtcDateTime
 
 if TYPE_CHECKING:
     from app.models.user import PatientProfile, User
@@ -65,7 +66,7 @@ class ExerciseSession(UUIDPrimaryKey, Timestamped, Base):
     )
 
     performed_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utcnow, nullable=False
+        UtcDateTime(), default=utcnow, nullable=False
     )
     activity: Mapped[str] = mapped_column(String(120), nullable=False)
     duration_minutes: Mapped[int] = mapped_column(Integer, nullable=False)

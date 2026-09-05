@@ -1,46 +1,125 @@
 @import "tailwindcss";
 
-/* Clinical palette: restrained, high-contrast, one accent reserved for action.
-   Severity colours are the only saturated hues, so a flag always reads as the
-   most urgent thing on the screen. */
+/* ─────────────────────────────────────────────────────────────
+   Warm editorial palette.
+
+   A paper-like ground rather than clinical white, one muted teal
+   accent reserved for actions, and saturated colour used only for
+   clinical severity — so a flag is always the most vivid thing on
+   screen and nothing else competes with it.
+   ───────────────────────────────────────────────────────────── */
 @theme {
-  --color-ink-50:  #f6f7f9;
-  --color-ink-100: #eceef2;
-  --color-ink-200: #d9dde5;
-  --color-ink-300: #b8c0ce;
-  --color-ink-400: #8a95a8;
-  --color-ink-500: #64708a;
-  --color-ink-600: #4a5568;
-  --color-ink-700: #364152;
-  --color-ink-800: #212b3b;
-  --color-ink-900: #131b28;
+  /* Ground and surfaces */
+  --color-paper:        #faf8f5;
+  --color-surface:      #ffffff;
+  --color-surface-sunk: #f3f0eb;
+  --color-line:         #e7e2d9;
+  --color-line-strong:  #d8d1c5;
 
-  --color-accent-50:  #eef4fb;
-  --color-accent-100: #d6e4f5;
-  --color-accent-500: #2f6db5;
-  --color-accent-600: #275c99;
-  --color-accent-700: #1f4a7c;
+  /* Text */
+  --color-ink:          #1c1a17;
+  --color-ink-soft:     #4a4640;
+  --color-ink-muted:    #7d766c;
+  --color-ink-faint:    #a49c90;
 
-  --color-mild-bg:     #fdf6e3;
-  --color-mild-fg:     #8a6d0f;
-  --color-moderate-bg: #fdeee3;
-  --color-moderate-fg: #a04e12;
-  --color-severe-bg:   #fdeaea;
-  --color-severe-fg:   #a51d1d;
-  --color-good-bg:     #eaf6ee;
-  --color-good-fg:     #1d6b38;
+  /* Accent — deep teal. Chosen for maximum distance from the red severity
+     scale: an action and an alarm must never be the same family of colour. */
+  --color-teal-50:      #eef5f3;
+  --color-teal-100:     #d5e7e2;
+  --color-teal-400:     #3d8a7b;
+  --color-teal-500:     #1f6357;
+  --color-teal-600:     #185046;
+  --color-teal-700:     #123d36;
+
+  /* Clinical severity — the only saturated colours in the system */
+  --color-mild-bg:      #fdf4e3;
+  --color-mild-fg:      #8a6410;
+  --color-moderate-bg:  #fbeade;
+  --color-moderate-fg:  #9c4a13;
+  --color-severe-bg:    #fbe8e6;
+  --color-severe-fg:    #a32020;
+  --color-good-bg:      #eaf3ec;
+  --color-good-fg:      #2b6340;
+
+  --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+  --font-bengali: "Noto Sans Bengali", "Inter", sans-serif;
+
+  --radius-card: 14px;
+}
+
+/* Dark: the same relationships, re-grounded. Not inverted — a warm dark
+   keeps the paper feeling rather than turning into a terminal. */
+:root[data-theme="dark"] {
+  --color-paper:        #16151300;
+  --color-paper:        #131312;
+  --color-surface:      #1c1c1a;
+  --color-surface-sunk: #242422;
+  --color-line:         #2e2e2b;
+  --color-line-strong:  #3d3d39;
+
+  --color-ink:          #ecebe8;
+  --color-ink-soft:     #c6c3bd;
+  --color-ink-muted:    #948f88;
+  --color-ink-faint:    #6c6862;
+
+  /* Lifted on a dark ground: #1f6357 goes nearly black against #161513. */
+  --color-teal-50:      #12211e;
+  --color-teal-100:     #183029;
+  --color-teal-400:     #5cae9c;
+  --color-teal-500:     #4a9b8a;
+  --color-teal-600:     #5cae9c;
+  --color-teal-700:     #86c9b9;
+
+  --color-mild-bg:      #2e2616;
+  --color-mild-fg:      #e3c078;
+  --color-moderate-bg:  #33210f;
+  --color-moderate-fg:  #eda06a;
+  --color-severe-bg:    #35191a;
+  --color-severe-fg:    #f18b86;
+  --color-good-bg:      #17281d;
+  --color-good-fg:      #86c99b;
 }
 
 html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  background: var(--color-ink-50);
-  color: var(--color-ink-800);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Tabular figures everywhere numbers are compared down a column. */
+/* Bangla needs slightly more line height than Latin at the same size, or the
+   matras collide with the line above. */
+:lang(bn), .bn { font-family: var(--font-bengali); line-height: 1.85; }
+
 .tnum { font-variant-numeric: tabular-nums; }
+
+::selection { background: var(--color-teal-100); color: var(--color-teal-700); }
+
+/* Quiet scrollbars — the default Windows bar is the loudest element on a
+   calm page. */
+* { scrollbar-width: thin; scrollbar-color: var(--color-line-strong) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover { background-color: var(--color-ink-faint); background-clip: content-box; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.animate-rise { animation: rise .28s cubic-bezier(.2,.8,.3,1) both; }
+
+@keyframes pulse-soft { 0%,100% { opacity: .35 } 50% { opacity: 1 } }
+.animate-pulse-soft { animation: pulse-soft 1.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

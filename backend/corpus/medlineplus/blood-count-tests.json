@@ -1,0 +1,19 @@
+{
+  "id": "medlineplus/blood-count-tests",
+  "title": "Blood Count Tests",
+  "text": "Your blood contains red blood cells (RBC), white blood cells (WBC), and platelets. Blood count tests measure the number and types of cells in your blood. This helps doctors check on your overall health. The tests can also help to diagnose diseases and conditions such as anemia, infections, clotting problems, blood cancers, and immune system disorders.\n\nSpecific types include tests for:\n\n- RBC - the numbers, size, and types of RBC in the blood\n\n- WBC - the numbers and types of WBC in the blood\n\n- Platelets - the numbers and size of the platelets\n\n- Hemoglobin - an iron-rich protein in red blood cells that carries oxygen\n\n- Hematocrit - how much space red blood cells take up in your blood\n\n- Reticulocyte count - how many young red blood cells are in your blood\n\n- Mean corpuscular volume (MCV) - the average size of your red blood cells\n\nThe complete blood count (CBC) includes most or all of these. The CBC is one of the most common blood tests.\n\nNIH: National Heart, Lung, and Blood Institute",
+  "also_called": [
+    "CBC",
+    "Complete Blood Count",
+    "Hematologic Tests"
+  ],
+  "groups": [
+    "Blood, Heart and Circulation"
+  ],
+  "source": "MedlinePlus (U.S. National Library of Medicine)",
+  "source_url": "https://medlineplus.gov/bloodcounttests.html",
+  "licence": "Public domain (work of the U.S. National Library of Medicine)",
+  "attribution": "Courtesy of MedlinePlus from the National Library of Medicine",
+  "retrieved_at": "2026-09-02T12:51:32+00:00",
+  "feed_published": "2026-09-02"
+}

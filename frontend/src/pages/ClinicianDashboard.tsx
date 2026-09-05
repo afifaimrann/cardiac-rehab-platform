@@ -1,12 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
-import { Check, ChevronRight, ShieldAlert } from "lucide-react";
-import { Layout } from "@/components/Layout";
-import { Badge, Button, Card, CardHeader, EmptyState, SeverityBadge, Spinner } from "@/components/ui";
+import { Check, ChevronRight, Inbox, ShieldAlert, Sparkles, Users } from "lucide-react";
+import { Avatar } from "@/components/Avatar";
+import { ClinicianPatientPage } from "@/pages/ClinicianPatient";
+import { CONTENT, PageHeader } from "@/components/AppShell";
+import {
+  Badge, Button, Card, CardHeader, EmptyState, SeverityBadge, Spinner,
+} from "@/components/exports";
 import { api, ApiError } from "@/lib/api";
-import type { CaseloadRow, RiskFlag, Vitals } from "@/lib/types";
-import { cn, formatDateTime, relativeTime } from "@/lib/utils";
+import type { CaseloadRow, RiskFlag } from "@/lib/types";
+import { cn, relativeTime } from "@/lib/utils";
 
-export function ClinicianDashboard() {
+export function ClinicianDashboard({ onAskAbout }: {
+  /** Jump straight to the assistant for one patient. */
+  onAskAbout?: (patientId: string) => void;
+}) {
   const [caseload, setCaseload] = useState<CaseloadRow[]>([]);
   const [flags, setFlags] = useState<RiskFlag[]>([]);
   const [selected, setSelected] = useState<CaseloadRow | null>(null);
@@ -23,92 +30,109 @@ export function ClinicianDashboard() {
 
   const urgent = caseload.filter((p) => p.highest_open_severity === "severe").length;
 
+  // Opening a patient replaces the caseload entirely. A record read before a
+  // consultation deserves the whole window, not a panel under a table.
+  if (selected) {
+    return <ClinicianPatientPage patient={selected} onBack={() => { setSelected(null); void load(); }} />;
+  }
+
   return (
-    <Layout
-      title="Caseload"
-      subtitle={
-        loading ? undefined
-          : `${caseload.length} patients · ${flags.length} open flags${urgent ? ` · ${urgent} needing urgent review` : ""}`
-      }
-    >
-      {loading ? <Spinner /> : (
-        <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
-          <div className="space-y-5">
-            <Card>
-              <CardHeader title="Patients" subtitle="Sorted by clinical urgency" />
-              {caseload.length === 0 ? (
-                <EmptyState title="No patients assigned" hint="An administrator assigns patients to your caseload." />
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-ink-100 text-left text-[12px] uppercase tracking-wide text-ink-400">
-                        <th className="px-5 py-2.5 font-medium">Patient</th>
-                        <th className="px-5 py-2.5 font-medium">Flags</th>
-                        <th className="px-5 py-2.5 font-medium">Adherence</th>
-                        <th className="px-5 py-2.5 font-medium">Last reading</th>
-                        <th className="px-5 py-2.5" />
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-ink-100">
-                      {caseload.map((p) => (
-                        <tr
-                          key={p.patient_id}
-                          onClick={() => setSelected(p)}
-                          className={cn(
-                            "cursor-pointer transition hover:bg-ink-50",
-                            selected?.patient_id === p.patient_id && "bg-accent-50",
-                          )}
-                        >
-                          <td className="px-5 py-3">
-                            <p className="font-medium text-ink-900">{p.full_name}</p>
-                            <p className="text-[12px] text-ink-400">{p.primary_condition ?? "No condition recorded"}</p>
-                          </td>
-                          <td className="px-5 py-3">
-                            {p.open_flags === 0 ? (
-                              <Badge tone="good">clear</Badge>
-                            ) : (
-                              <div className="flex items-center gap-1.5">
-                                <span className="tnum text-[13px] font-semibold">{p.open_flags}</span>
-                                {p.highest_open_severity && <SeverityBadge severity={p.highest_open_severity} />}
-                              </div>
-                            )}
-                          </td>
-                          <td className="px-5 py-3">
-                            {p.adherence_pct == null ? (
-                              <span className="text-[13px] text-ink-400">no plan</span>
-                            ) : (
-                              <AdherenceBar pct={p.adherence_pct} />
-                            )}
-                          </td>
-                          <td className="px-5 py-3 text-[13px] text-ink-500">{relativeTime(p.last_vitals_at)}</td>
-                          <td className="px-3 py-3 text-ink-300"><ChevronRight size={16} /></td>
+    <div className="flex h-full flex-col overflow-hidden">
+      <PageHeader
+        title="Caseload"
+        subtitle={loading ? undefined
+          : `${caseload.length} patients · ${flags.length} open flags${urgent ? ` · ${urgent} needing urgent review` : ""}`}
+      />
+
+      <div className="flex-1 overflow-y-auto py-7">
+        {loading ? <Spinner /> : (
+          <div className={`${CONTENT} grid items-start gap-5 xl:grid-cols-[1fr_360px]`}>
+            <div className="min-w-0 space-y-5">
+              <Card>
+                <CardHeader title="Patients" subtitle="Sorted by clinical urgency" />
+                {caseload.length === 0 ? (
+                  <EmptyState icon={<Users size={22} />} title="No patients assigned"
+                    hint="An administrator assigns patients to your caseload." />
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-line text-[11px] uppercase tracking-[0.05em] text-ink-faint">
+                          <th className="px-5 py-2.5 text-start font-semibold">Patient</th>
+                          <th className="px-5 py-2.5 text-start font-semibold">Flags</th>
+                          <th className="px-5 py-2.5 text-start font-semibold">Adherence</th>
+                          <th className="px-5 py-2.5 text-start font-semibold">Last reading</th>
+                          <th className="px-5 py-2.5 text-start font-semibold">Assistant</th>
+                          <th className="px-3 py-2.5" />
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </Card>
+                      </thead>
+                      <tbody className="divide-y divide-line">
+                        {caseload.map((p) => (
+                          <tr key={p.patient_id} onClick={() => setSelected(p)}
+                            className="cursor-pointer transition-colors duration-150 hover:bg-surface-sunk/50">
+                            <td className="px-5 py-3">
+                              <div className="flex items-center gap-3">
+                                <Avatar name={p.full_name} size={32} />
+                                <div className="min-w-0">
+                                  <p className="font-medium text-ink">{p.full_name}</p>
+                                  <p className="mt-0.5 text-[12px] text-ink-faint">
+                                    {p.primary_condition ?? "No condition recorded"}
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-5 py-3">
+                              {p.open_flags === 0 ? <Badge tone="good">clear</Badge> : (
+                                <div className="flex items-center gap-2">
+                                  <span className="tnum text-[13px] font-semibold text-ink">{p.open_flags}</span>
+                                  {p.highest_open_severity && <SeverityBadge severity={p.highest_open_severity} />}
+                                </div>
+                              )}
+                            </td>
+                            <td className="px-5 py-3">
+                              {p.adherence_pct == null
+                                ? <span className="text-[13px] text-ink-faint">no plan</span>
+                                : <AdherenceBar pct={p.adherence_pct} />}
+                            </td>
+                            <td className="px-5 py-3 text-[13px] text-ink-muted">{relativeTime(p.last_vitals_at)}</td>
+                            <td className="px-5 py-3">
+                              {/* Stops the row click: this is a different
+                                  destination, not a shortcut to the same one. */}
+                              <Button
+                                variant="secondary" size="sm"
+                                onClick={(e) => { e.stopPropagation(); onAskAbout?.(p.patient_id); }}
+                              >
+                                <Sparkles size={14} /> Ask
+                              </Button>
+                            </td>
+                            <td className="px-3 py-3 text-ink-faint"><ChevronRight size={16} /></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </Card>
 
-            {selected && <PatientDetail patient={selected} onClose={() => setSelected(null)} />}
+            </div>
+
+            <FlagQueue flags={flags} onResolved={load} />
           </div>
-
-          <FlagQueue flags={flags} onResolved={load} />
-        </div>
-      )}
-    </Layout>
+        )}
+      </div>
+    </div>
   );
 }
 
 function AdherenceBar({ pct }: { pct: number }) {
   const tone = pct >= 80 ? "bg-good-fg" : pct >= 50 ? "bg-moderate-fg" : "bg-severe-fg";
   return (
-    <div className="flex items-center gap-2">
-      <div className="h-1.5 w-16 overflow-hidden rounded-full bg-ink-100">
-        <div className={cn("h-full rounded-full", tone)} style={{ width: `${Math.min(pct, 100)}%` }} />
+    <div className="flex items-center gap-2.5">
+      <div className="h-1.5 w-16 overflow-hidden rounded-full bg-surface-sunk">
+        <div className={cn("h-full rounded-full transition-[width] duration-500", tone)}
+          style={{ width: `${Math.min(pct, 100)}%` }} />
       </div>
-      <span className="tnum text-[13px] text-ink-600">{pct}%</span>
+      <span className="tnum text-[13px] text-ink-soft">{pct}%</span>
     </div>
   );
 }
@@ -131,25 +155,26 @@ function FlagQueue({ flags, onResolved }: { flags: RiskFlag[]; onResolved: () =>
   }
 
   return (
-    <Card className="h-fit">
+    <Card className="h-fit xl:sticky xl:top-0">
       <CardHeader
         title={<span className="flex items-center gap-2"><ShieldAlert size={16} className="text-moderate-fg" /> Review queue</span>}
         subtitle={`${flags.length} open`}
       />
-      {error && <p role="alert" className="mx-5 mt-3 rounded-lg bg-severe-bg px-3 py-2 text-[13px] text-severe-fg">{error}</p>}
+      {error && <p role="alert" className="mx-5 mt-3 rounded-[10px] bg-severe-bg px-3 py-2 text-[13px] text-severe-fg">{error}</p>}
       {flags.length === 0 ? (
-        <EmptyState title="Queue is clear" hint="New flags appear here as patients log data." />
+        <EmptyState icon={<Inbox size={22} />} title="Queue is clear"
+          hint="New flags appear here as patients log data." />
       ) : (
-        <ul className="max-h-[560px] divide-y divide-ink-100 overflow-y-auto">
+        <ul className="max-h-[calc(100vh-220px)] divide-y divide-line overflow-y-auto">
           {flags.map((f) => (
-            <li key={f.id} className="px-5 py-3.5">
-              <div className="mb-1.5 flex items-center justify-between gap-2">
+            <li key={f.id} className="px-5 py-4">
+              <div className="mb-2 flex items-center justify-between gap-2">
                 <SeverityBadge severity={f.severity} />
-                <span className="text-[11px] text-ink-400">{relativeTime(f.created_at)}</span>
+                <span className="text-[11px] text-ink-faint">{relativeTime(f.created_at)}</span>
               </div>
-              <p className="text-[13px] leading-snug text-ink-700">{f.message}</p>
-              <div className="mt-2 flex items-center justify-between">
-                <code className="rounded bg-ink-100 px-1.5 py-0.5 text-[11px] text-ink-500">{f.rule_code}</code>
+              <p className="text-[13px] leading-relaxed text-ink-soft">{f.message}</p>
+              <div className="mt-2.5 flex items-center justify-between gap-2">
+                <code className="rounded bg-surface-sunk px-1.5 py-0.5 text-[11px] text-ink-muted">{f.rule_code}</code>
                 <Button variant="secondary" size="sm" disabled={busyId === f.id} onClick={() => resolve(f.id)}>
                   <Check size={14} /> {busyId === f.id ? "…" : "Resolve"}
                 </Button>
@@ -157,51 +182,6 @@ function FlagQueue({ flags, onResolved }: { flags: RiskFlag[]; onResolved: () =>
             </li>
           ))}
         </ul>
-      )}
-    </Card>
-  );
-}
-
-function PatientDetail({ patient, onClose }: { patient: CaseloadRow; onClose: () => void }) {
-  const [vitals, setVitals] = useState<Vitals[] | null>(null);
-
-  useEffect(() => {
-    setVitals(null);
-    void api.clinician.patientVitals(patient.patient_id, 12).then((r) => setVitals(r.items));
-  }, [patient.patient_id]);
-
-  return (
-    <Card>
-      <CardHeader
-        title={patient.full_name}
-        subtitle={patient.primary_condition ?? undefined}
-        action={<Button variant="ghost" size="sm" onClick={onClose}>Close</Button>}
-      />
-      {vitals === null ? <Spinner label="Loading readings" /> : vitals.length === 0 ? (
-        <EmptyState title="No readings logged" />
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-ink-100 text-left text-[12px] uppercase tracking-wide text-ink-400">
-                <th className="px-5 py-2.5 font-medium">When</th>
-                <th className="px-5 py-2.5 font-medium">BP</th>
-                <th className="px-5 py-2.5 font-medium">HR</th>
-                <th className="px-5 py-2.5 font-medium">SpO₂</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-ink-100">
-              {vitals.map((v) => (
-                <tr key={v.id} className="tnum">
-                  <td className="px-5 py-2.5 text-ink-500">{formatDateTime(v.recorded_at)}</td>
-                  <td className="px-5 py-2.5 font-medium">{v.systolic ? `${v.systolic}/${v.diastolic ?? "–"}` : "–"}</td>
-                  <td className="px-5 py-2.5">{v.heart_rate ?? "–"}</td>
-                  <td className="px-5 py-2.5">{v.spo2 ? `${v.spo2}%` : "–"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       )}
     </Card>
   );

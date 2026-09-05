@@ -11,7 +11,7 @@ from sqlalchemy import and_, or_, select
 
 from app.api.deps import DbSession, OwnPatientProfile
 from app.core.pagination import decode_cursor, next_cursor_for
-from app.models.clinical import SymptomReport, VitalsRecord
+from app.models.clinical import RiskFlag, SymptomReport, VitalsRecord
 from app.models.enums import FlagSource
 from app.schemas.clinical import (
     RiskFlagRead, SymptomCreate, SymptomCreateResponse, SymptomRead,
@@ -23,6 +23,7 @@ from app.services.risk_rules import evaluate_symptom, evaluate_vitals
 
 router = APIRouter(prefix="/vitals", tags=["vitals"])
 symptom_router = APIRouter(prefix="/symptoms", tags=["symptoms"])
+flag_router = APIRouter(prefix="/flags", tags=["vitals"])
 
 PageLimit = Annotated[int, Query(ge=1, le=100, description="Rows per page.")]
 Cursor = Annotated[Optional[str], Query(description="next_cursor from the previous page.")]
@@ -121,4 +122,31 @@ async def list_symptoms(
     return CursorPage[SymptomRead](
         items=[SymptomRead.model_validate(r) for r in rows],
         next_cursor=next_cursor_for(rows, limit, "recorded_at"),
+    )
+
+
+@flag_router.get(
+    "",
+    response_model=CursorPage[RiskFlagRead],
+    summary="Flags raised on your own records",
+)
+async def list_own_flags(
+    profile: OwnPatientProfile, db: DbSession, limit: PageLimit = 20, cursor: Cursor = None
+) -> CursorPage[RiskFlagRead]:
+    """A patient can see what was flagged on their own data.
+
+    Withholding this would be odd: the flag was raised by their reading, they
+    were already told at the time, and the clinician-facing queue is separate.
+    """
+    stmt = select(RiskFlag).where(RiskFlag.patient_id == profile.id)
+    if cursor:
+        ts, row_id = decode_cursor(cursor)
+        stmt = stmt.where(
+            or_(RiskFlag.created_at < ts, and_(RiskFlag.created_at == ts, RiskFlag.id < row_id))
+        )
+    stmt = stmt.order_by(RiskFlag.created_at.desc(), RiskFlag.id.desc()).limit(limit)
+    rows = list((await db.execute(stmt)).scalars().all())
+    return CursorPage[RiskFlagRead](
+        items=[RiskFlagRead.model_validate(r) for r in rows],
+        next_cursor=next_cursor_for(rows, limit, "created_at"),
     )

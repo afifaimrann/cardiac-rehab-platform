@@ -9,6 +9,9 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, fullName: string) => Promise<void>;
   logout: () => void;
+  /** Re-read /auth/me. Called after a profile edit so the shell, the avatar and
+   *  the walk test's predicted distance all see the change at once. */
+  refresh: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthState | null>(null);
@@ -57,8 +60,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, profile, loading, login, register, logout }),
-    [user, profile, loading, login, register, logout],
+    () => ({ user, profile, loading, login, register, logout, refresh: loadMe }),
+    [user, profile, loading, login, register, logout, loadMe],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

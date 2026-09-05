@@ -2,8 +2,10 @@
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, String
+from sqlalchemy import String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+from app.db.types import UtcDateTime
 
 
 def utcnow() -> datetime:
@@ -27,8 +29,8 @@ class UUIDPrimaryKey:
 
 class Timestamped:
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utcnow, nullable=False, index=True
+        UtcDateTime(), default=utcnow, nullable=False, index=True
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utcnow, onupdate=utcnow, nullable=False
+        UtcDateTime(), default=utcnow, onupdate=utcnow, nullable=False
     )

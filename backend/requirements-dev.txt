@@ -3,3 +3,10 @@ pytest>=8.3
 pytest-asyncio>=0.24
 anyio>=4.6
 ruff>=0.7
+
+# Optional encoders. Without either, retrieval is lexical-only, which every
+# test covers. Install whichever matches EMBEDDING_BACKEND.
+#   sentence-transformers: needed for BAAI/bge-m3 (pulls torch, ~2.5 GB)
+#   fastembed:             ONNX, no torch, for intfloat/multilingual-e5-large
+sentence-transformers>=3.0
+fastembed>=0.4

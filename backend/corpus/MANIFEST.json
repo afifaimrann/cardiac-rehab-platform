@@ -1,0 +1,472 @@
+{
+  "source": "MedlinePlus health topics",
+  "feed_url": "https://medlineplus.gov/xml/mplus_topics_compressed_2026-09-04.zip",
+  "feed_published": "2026-09-04",
+  "retrieved_at": "2026-09-04T08:18:32+00:00",
+  "licence": "Public domain (work of the U.S. National Library of Medicine)",
+  "attribution": "Courtesy of MedlinePlus from the National Library of Medicine",
+  "excluded": "A.D.A.M. Medical Encyclopedia and ASHP drug monographs are licensed third-party content and are not included.",
+  "topics_scanned": 1016,
+  "documents": [
+    {
+      "id": "medlineplus/alcohol",
+      "title": "Alcohol",
+      "chars": 3649
+    },
+    {
+      "id": "medlineplus/anemia",
+      "title": "Anemia",
+      "chars": 1103
+    },
+    {
+      "id": "medlineplus/aneurysms",
+      "title": "Aneurysms",
+      "chars": 878
+    },
+    {
+      "id": "medlineplus/angina",
+      "title": "Angina",
+      "chars": 1189
+    },
+    {
+      "id": "medlineplus/angioplasty",
+      "title": "Angioplasty",
+      "chars": 3167
+    },
+    {
+      "id": "medlineplus/anxiety",
+      "title": "Anxiety",
+      "chars": 4692
+    },
+    {
+      "id": "medlineplus/aortic-aneurysm",
+      "title": "Aortic Aneurysm",
+      "chars": 1101
+    },
+    {
+      "id": "medlineplus/aplastic-anemia",
+      "title": "Aplastic Anemia",
+      "chars": 2197
+    },
+    {
+      "id": "medlineplus/arrhythmia",
+      "title": "Arrhythmia",
+      "chars": 3629
+    },
+    {
+      "id": "medlineplus/arteriovenous-malformations",
+      "title": "Arteriovenous Malformations",
+      "chars": 3340
+    },
+    {
+      "id": "medlineplus/atherosclerosis",
+      "title": "Atherosclerosis",
+      "chars": 6204
+    },
+    {
+      "id": "medlineplus/atrial-fibrillation",
+      "title": "Atrial Fibrillation",
+      "chars": 5785
+    },
+    {
+      "id": "medlineplus/behcet-s-syndrome",
+      "title": "Behcet's Syndrome",
+      "chars": 954
+    },
+    {
+      "id": "medlineplus/bleeding",
+      "title": "Bleeding",
+      "chars": 1198
+    },
+    {
+      "id": "medlineplus/blood",
+      "title": "Blood",
+      "chars": 1485
+    },
+    {
+      "id": "medlineplus/blood-clots",
+      "title": "Blood Clots",
+      "chars": 4154
+    },
+    {
+      "id": "medlineplus/blood-disorders",
+      "title": "Blood Disorders",
+      "chars": 888
+    },
+    {
+      "id": "medlineplus/blood-pressure-medicines",
+      "title": "Blood Pressure Medicines",
+      "chars": 2207
+    },
+    {
+      "id": "medlineplus/blood-thinners",
+      "title": "Blood Thinners",
+      "chars": 2231
+    },
+    {
+      "id": "medlineplus/brain-aneurysm",
+      "title": "Brain Aneurysm",
+      "chars": 927
+    },
+    {
+      "id": "medlineplus/cpr",
+      "title": "CPR",
+      "chars": 3095
+    },
+    {
+      "id": "medlineplus/cardiac-rehabilitation",
+      "title": "Cardiac Rehabilitation",
+      "chars": 805
+    },
+    {
+      "id": "medlineplus/cardiomyopathy",
+      "title": "Cardiomyopathy",
+      "chars": 870
+    },
+    {
+      "id": "medlineplus/carotid-artery-disease",
+      "title": "Carotid Artery Disease",
+      "chars": 1465
+    },
+    {
+      "id": "medlineplus/chest-pain",
+      "title": "Chest Pain",
+      "chars": 685
+    },
+    {
+      "id": "medlineplus/cholesterol",
+      "title": "Cholesterol",
+      "chars": 6516
+    },
+    {
+      "id": "medlineplus/cholesterol-levels-what-you-need-to-know",
+      "title": "Cholesterol Levels: What You Need to Know",
+      "chars": 5829
+    },
+    {
+      "id": "medlineplus/cholesterol-medicines",
+      "title": "Cholesterol Medicines",
+      "chars": 4572
+    },
+    {
+      "id": "medlineplus/coronary-artery-bypass-surgery",
+      "title": "Coronary Artery Bypass Surgery",
+      "chars": 3044
+    },
+    {
+      "id": "medlineplus/coronary-artery-disease",
+      "title": "Coronary Artery Disease",
+      "chars": 4880
+    },
+    {
+      "id": "medlineplus/dash-eating-plan",
+      "title": "DASH Eating Plan",
+      "chars": 904
+    },
+    {
+      "id": "medlineplus/deep-vein-thrombosis",
+      "title": "Deep Vein Thrombosis",
+      "chars": 895
+    },
+    {
+      "id": "medlineplus/depression",
+      "title": "Depression",
+      "chars": 6490
+    },
+    {
+      "id": "medlineplus/diabetes",
+      "title": "Diabetes",
+      "chars": 5891
+    },
+    {
+      "id": "medlineplus/diabetic-foot",
+      "title": "Diabetic Foot",
+      "chars": 4261
+    },
+    {
+      "id": "medlineplus/diabetic-heart-disease",
+      "title": "Diabetic Heart Disease",
+      "chars": 3962
+    },
+    {
+      "id": "medlineplus/dietary-fats",
+      "title": "Dietary Fats",
+      "chars": 815
+    },
+    {
+      "id": "medlineplus/edema",
+      "title": "Edema",
+      "chars": 646
+    },
+    {
+      "id": "medlineplus/endocarditis",
+      "title": "Endocarditis",
+      "chars": 5768
+    },
+    {
+      "id": "medlineplus/eosinophilic-disorders",
+      "title": "Eosinophilic Disorders",
+      "chars": 797
+    },
+    {
+      "id": "medlineplus/eosinophilic-esophagitis",
+      "title": "Eosinophilic Esophagitis",
+      "chars": 4984
+    },
+    {
+      "id": "medlineplus/exercise-and-physical-fitness",
+      "title": "Exercise and Physical Fitness",
+      "chars": 4882
+    },
+    {
+      "id": "medlineplus/gangrene",
+      "title": "Gangrene",
+      "chars": 753
+    },
+    {
+      "id": "medlineplus/giant-cell-arteritis",
+      "title": "Giant Cell Arteritis",
+      "chars": 1134
+    },
+    {
+      "id": "medlineplus/granulomatosis-with-polyangiitis",
+      "title": "Granulomatosis with Polyangiitis",
+      "chars": 812
+    },
+    {
+      "id": "medlineplus/hdl-the-good-cholesterol",
+      "title": "HDL: The \"Good\" Cholesterol",
+      "chars": 4445
+    },
+    {
+      "id": "medlineplus/heart-attack",
+      "title": "Heart Attack",
+      "chars": 2265
+    },
+    {
+      "id": "medlineplus/heart-disease-in-women",
+      "title": "Heart Disease in Women",
+      "chars": 6106
+    },
+    {
+      "id": "medlineplus/heart-diseases",
+      "title": "Heart Diseases",
+      "chars": 4045
+    },
+    {
+      "id": "medlineplus/heart-failure",
+      "title": "Heart Failure",
+      "chars": 6873
+    },
+    {
+      "id": "medlineplus/heart-health-tests",
+      "title": "Heart Health Tests",
+      "chars": 6375
+    },
+    {
+      "id": "medlineplus/heart-surgery",
+      "title": "Heart Surgery",
+      "chars": 4719
+    },
+    {
+      "id": "medlineplus/heart-transplantation",
+      "title": "Heart Transplantation",
+      "chars": 796
+    },
+    {
+      "id": "medlineplus/heart-valve-diseases",
+      "title": "Heart Valve Diseases",
+      "chars": 5861
+    },
+    {
+      "id": "medlineplus/hemorrhagic-stroke",
+      "title": "Hemorrhagic Stroke",
+      "chars": 3169
+    },
+    {
+      "id": "medlineplus/high-blood-pressure",
+      "title": "High Blood Pressure",
+      "chars": 3012
+    },
+    {
+      "id": "medlineplus/how-to-lower-cholesterol",
+      "title": "How to Lower Cholesterol",
+      "chars": 4743
+    },
+    {
+      "id": "medlineplus/how-to-lower-cholesterol-with-diet",
+      "title": "How to Lower Cholesterol with Diet",
+      "chars": 5196
+    },
+    {
+      "id": "medlineplus/how-to-prevent-heart-disease",
+      "title": "How to Prevent Heart Disease",
+      "chars": 5970
+    },
+    {
+      "id": "medlineplus/how-to-prevent-high-blood-pressure",
+      "title": "How to Prevent High Blood Pressure",
+      "chars": 5691
+    },
+    {
+      "id": "medlineplus/ischemic-stroke",
+      "title": "Ischemic Stroke",
+      "chars": 3307
+    },
+    {
+      "id": "medlineplus/kawasaki-disease",
+      "title": "Kawasaki Disease",
+      "chars": 3425
+    },
+    {
+      "id": "medlineplus/ldl-the-bad-cholesterol",
+      "title": "LDL: The \"Bad\" Cholesterol",
+      "chars": 6015
+    },
+    {
+      "id": "medlineplus/low-blood-pressure",
+      "title": "Low Blood Pressure",
+      "chars": 1139
+    },
+    {
+      "id": "medlineplus/lymphedema",
+      "title": "Lymphedema",
+      "chars": 626
+    },
+    {
+      "id": "medlineplus/malaria",
+      "title": "Malaria",
+      "chars": 992
+    },
+    {
+      "id": "medlineplus/metabolic-syndrome",
+      "title": "Metabolic Syndrome",
+      "chars": 4031
+    },
+    {
+      "id": "medlineplus/mitral-valve-prolapse",
+      "title": "Mitral Valve Prolapse",
+      "chars": 4720
+    },
+    {
+      "id": "medlineplus/nutrition",
+      "title": "Nutrition",
+      "chars": 1485
+    },
+    {
+      "id": "medlineplus/obesity",
+      "title": "Obesity",
+      "chars": 3907
+    },
+    {
+      "id": "medlineplus/pacemakers-and-implantable-defibrillators",
+      "title": "Pacemakers and Implantable Defibrillators",
+      "chars": 1317
+    },
+    {
+      "id": "medlineplus/pericardial-disorders",
+      "title": "Pericardial Disorders",
+      "chars": 837
+    },
+    {
+      "id": "medlineplus/peripheral-arterial-disease",
+      "title": "Peripheral Arterial Disease",
+      "chars": 1665
+    },
+    {
+      "id": "medlineplus/pulmonary-hypertension",
+      "title": "Pulmonary Hypertension",
+      "chars": 4852
+    },
+    {
+      "id": "medlineplus/quitting-smoking",
+      "title": "Quitting Smoking",
+      "chars": 2773
+    },
+    {
+      "id": "medlineplus/raynaud-phenomenon",
+      "title": "Raynaud Phenomenon",
+      "chars": 4936
+    },
+    {
+      "id": "medlineplus/rh-incompatibility",
+      "title": "Rh Incompatibility",
+      "chars": 2544
+    },
+    {
+      "id": "medlineplus/shock",
+      "title": "Shock",
+      "chars": 1139
+    },
+    {
+      "id": "medlineplus/sleep-disorders",
+      "title": "Sleep Disorders",
+      "chars": 4749
+    },
+    {
+      "id": "medlineplus/smoking",
+      "title": "Smoking",
+      "chars": 3696
+    },
+    {
+      "id": "medlineplus/sodium",
+      "title": "Sodium",
+      "chars": 1053
+    },
+    {
+      "id": "medlineplus/statins",
+      "title": "Statins",
+      "chars": 3346
+    },
+    {
+      "id": "medlineplus/stress",
+      "title": "Stress",
+      "chars": 4238
+    },
+    {
+      "id": "medlineplus/stroke",
+      "title": "Stroke",
+      "chars": 6125
+    },
+    {
+      "id": "medlineplus/sudden-cardiac-arrest",
+      "title": "Sudden Cardiac Arrest",
+      "chars": 7270
+    },
+    {
+      "id": "medlineplus/transient-ischemic-attack",
+      "title": "Transient Ischemic Attack",
+      "chars": 1174
+    },
+    {
+      "id": "medlineplus/triglycerides",
+      "title": "Triglycerides",
+      "chars": 1944
+    },
+    {
+      "id": "medlineplus/vldl-cholesterol",
+      "title": "VLDL Cholesterol",
+      "chars": 2110
+    },
+    {
+      "id": "medlineplus/varicose-veins",
+      "title": "Varicose Veins",
+      "chars": 1114
+    },
+    {
+      "id": "medlineplus/vascular-diseases",
+      "title": "Vascular Diseases",
+      "chars": 3720
+    },
+    {
+      "id": "medlineplus/vasculitis",
+      "title": "Vasculitis",
+      "chars": 1082
+    },
+    {
+      "id": "medlineplus/weight-control",
+      "title": "Weight Control",
+      "chars": 4838
+    }
+  ]
+}

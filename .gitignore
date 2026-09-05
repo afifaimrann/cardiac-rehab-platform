@@ -11,6 +11,15 @@
 *.db-wal
 *.db-shm
 
+# Uploaded patient photographs
+media/
+uploads/
+
+# Transfer archives
+*.tgz
+*.tar.gz
+_to_delete/
+
 # Python
 __pycache__/
 *.py[cod]

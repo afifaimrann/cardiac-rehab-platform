@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { HeartPulse } from "lucide-react";
 import { useAuth } from "@/context/auth";
-import { Button, Card, Field } from "@/components/ui";
+import { Button, Card, Field } from "@/components/exports";
 import { ApiError } from "@/lib/api";
 
 const DEMO = [
@@ -33,18 +33,33 @@ export function Login() {
     }
   }
 
+  async function demo(demoEmail: string) {
+    setError(null);
+    setBusy(true);
+    try {
+      await login(demoEmail, DEMO_PASSWORD);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Demo sign-in failed.");
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="flex min-h-full items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm">
-        <div className="mb-7 flex flex-col items-center text-center">
-          <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-accent-600 text-white">
-            <HeartPulse size={22} strokeWidth={2.2} />
+      <div className="w-full max-w-[380px]">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-[14px] bg-teal-500 text-white shadow-[0_2px_10px_rgba(31,99,87,.30)]">
+            <HeartPulse size={24} strokeWidth={2.2} />
           </div>
-          <h1 className="text-lg font-semibold tracking-tight text-ink-900">Cardiac Rehab Platform</h1>
-          <p className="mt-1 text-[13px] text-ink-500">Remote monitoring for phase II recovery</p>
+          <h1 className="font-serif text-[26px] leading-tight tracking-[-0.015em] text-ink">
+            Cardiac Rehab
+          </h1>
+          <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
+            Remote monitoring and support through phase&nbsp;II recovery
+          </p>
         </div>
 
-        <Card className="p-5">
+        <Card className="p-6">
           <form onSubmit={submit} className="space-y-4">
             {mode === "register" && (
               <Field label="Full name" value={fullName} required
@@ -58,7 +73,7 @@ export function Login() {
               hint={mode === "register" ? "At least 8 characters" : undefined} />
 
             {error && (
-              <p role="alert" className="rounded-lg bg-severe-bg px-3 py-2 text-[13px] text-severe-fg">
+              <p role="alert" className="rounded-[10px] bg-severe-bg px-3 py-2.5 text-[13px] text-severe-fg">
                 {error}
               </p>
             )}
@@ -68,22 +83,22 @@ export function Login() {
             </Button>
           </form>
 
-          <button
-            type="button"
+          <button type="button"
             onClick={() => { setMode(mode === "login" ? "register" : "login"); setError(null); }}
-            className="mt-4 w-full text-center text-[13px] text-ink-500 hover:text-ink-800"
-          >
+            className="mt-4 w-full text-center text-[13px] text-ink-muted transition-colors hover:text-ink">
             {mode === "login" ? "New patient? Create an account" : "Already registered? Sign in"}
           </button>
         </Card>
 
         {mode === "login" && (
-          <div className="mt-5 rounded-xl border border-dashed border-ink-200 p-4">
-            <p className="mb-2 text-[12px] font-medium uppercase tracking-wide text-ink-400">Demo accounts</p>
+          <div className="mt-6">
+            <p className="mb-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.06em] text-ink-faint">
+              Explore the demo
+            </p>
             <div className="flex gap-2">
               {DEMO.map((d) => (
                 <Button key={d.email} variant="secondary" size="sm" className="flex-1"
-                  onClick={() => { setEmail(d.email); setPassword(DEMO_PASSWORD); }}>
+                  disabled={busy} onClick={() => void demo(d.email)}>
                   {d.label}
                 </Button>
               ))}

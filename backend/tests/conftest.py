@@ -11,6 +11,9 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
+import pytest
+
+from app.core.config import settings
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
@@ -18,6 +21,19 @@ from app.models import PatientProfile, User, UserRole
 from app.core.security import hash_password
 
 TEST_PASSWORD = "test-password-123"
+
+
+@pytest.fixture(autouse=True)
+def no_external_calls(monkeypatch):
+    """Force the offline path for every test.
+
+    pydantic-settings reads .env, so a developer with a real OPENAI_API_KEY
+    would otherwise run the suite against the live API: slow, billable, and
+    non-deterministic. Tests assert the extractive and guardrail behaviour,
+    which must hold with no key present.
+    """
+    monkeypatch.setattr(settings, "OPENAI_API_KEY", "", raising=False)
+    monkeypatch.setattr(settings, "RERANK_ENABLED", False, raising=False)
 
 
 @pytest_asyncio.fixture

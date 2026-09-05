@@ -8,7 +8,7 @@ from __future__ import annotations
 import asyncio
 import random
 import sys
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -16,13 +16,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from sqlalchemy import select  # noqa: E402
 
 from app.core.security import hash_password  # noqa: E402
-from app.db.base import Base  # noqa: E402
 from app.db.session import AsyncSessionLocal, engine  # noqa: E402
 from app.models import (  # noqa: E402
-    ExercisePlan, ExerciseSession, PatientProfile, Severity, SymptomReport,
-    User, UserRole, VitalsRecord,
+    Appointment, AvailabilityRule, DirectMessage, ExercisePlan, ExerciseSession,
+    PatientProfile, Severity, SymptomReport, User, UserRole, VitalsRecord,
 )
-from app.models.enums import FlagSource  # noqa: E402
+from app.models.enums import (  # noqa: E402
+    AppointmentMode, AppointmentStatus, FlagSource,
+)
+from app.services import scheduling  # noqa: E402
+from app.services.meetings import create_room  # noqa: E402
 from app.services.flags import persist_flags  # noqa: E402
 from app.services.risk_rules import evaluate_session, evaluate_symptom, evaluate_vitals  # noqa: E402
 
@@ -51,9 +54,6 @@ async def get_or_create_user(db, email: str, name: str, role: UserRole) -> User:
 
 
 async def main() -> None:
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
     rng = random.Random(42)  # deterministic demo data
     now = datetime.now(timezone.utc)
 
@@ -62,6 +62,28 @@ async def main() -> None:
         clinician = await get_or_create_user(
             db, "dr.chowdhury@example.com", "Dr. Chowdhury", UserRole.CLINICIAN
         )
+
+        # A weekly rota, so patients have something to book against. Published
+        # once for the clinician rather than per patient.
+        rota = list((await db.execute(
+            select(AvailabilityRule).where(AvailabilityRule.clinician_id == clinician.id)
+        )).scalars().all())
+        if not rota:
+            for weekday, mode, location in [
+                (1, AppointmentMode.ONLINE, None),
+                (3, AppointmentMode.ONLINE, None),
+                (4, AppointmentMode.IN_PERSON, "Cardiac rehab suite, level 2"),
+            ]:
+                rule = AvailabilityRule(
+                    clinician_id=clinician.id, weekday=weekday,
+                    start_time=time(9, 0), end_time=time(13, 0), slot_minutes=30,
+                    mode=mode, location=location,
+                )
+                db.add(rule)
+                rota.append(rule)
+            await db.flush()
+
+        booked: list[Appointment] = []
 
         for email, name, condition, resting_hr, hr_max in PATIENTS:
             user = await get_or_create_user(db, email, name, UserRole.PATIENT)
@@ -153,9 +175,47 @@ async def main() -> None:
                     db, profile, FlagSource.SYMPTOM, report.id, evaluate_symptom(report, profile)
                 )
 
+            # --- one booked consultation, so the module is not empty ------
+            if email == PATIENTS[0][0]:
+                slots = scheduling.generate_slots(
+                    rota, days=7, taken_keys=[a.slot_key for a in booked if a.slot_key]
+                )
+                if slots:
+                    slot = slots[2 if len(slots) > 2 else 0]
+                    meeting = create_room()
+                    appointment = Appointment(
+                        patient_id=profile.id, clinician_id=clinician.id,
+                        slot_key=slot.key, starts_at=slot.starts_at, ends_at=slot.ends_at,
+                        mode=slot.mode, location=slot.location,
+                        reason="More breathless than usual on the stairs",
+                        status=AppointmentStatus.SCHEDULED,
+                        meeting_provider=meeting.provider, meeting_room=meeting.room,
+                        meeting_url=meeting.url,
+                    )
+                    db.add(appointment)
+                    booked.append(appointment)
+
+            # --- a short thread with the care team ------------------------
+            if email in (PATIENTS[0][0], PATIENTS[1][0]):
+                db.add(DirectMessage(
+                    patient_id=profile.id, sender_id=user.id,
+                    sent_at=now - timedelta(days=3),
+                    body="I managed the full thirty minutes on Tuesday but my ankles "
+                         "looked puffy that evening. Is that something to worry about?",
+                ))
+                db.add(DirectMessage(
+                    patient_id=profile.id, sender_id=clinician.id,
+                    sent_at=now - timedelta(days=2, hours=4),
+                    read_at=now - timedelta(days=2),
+                    body="Well done on the thirty minutes. Weigh yourself each morning "
+                         "before breakfast this week and log it here — if you gain more "
+                         "than two kilos in three days, call us rather than waiting.",
+                ))
+
         await db.commit()
 
     print("Demo data ready. All accounts use password:", DEMO_PASSWORD)
+    print("  Rota published Tue/Thu (video) and Fri (in person), 09:00-13:00.")
     print("  admin@example.com          (admin)")
     print("  dr.chowdhury@example.com   (clinician)")
     for email, name, *_ in PATIENTS:

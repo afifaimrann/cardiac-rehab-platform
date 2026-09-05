@@ -4,7 +4,7 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-from app.models.enums import UserRole
+from app.models.enums import SexAtBirth, UserRole
 
 
 class UserRegister(BaseModel):
@@ -44,6 +44,10 @@ class UserRead(BaseModel):
     role: UserRole
     is_active: bool
     created_at: datetime
+    avatar_url: Optional[str] = Field(
+        default=None,
+        description="Where to fetch the profile photograph, or null if none is set.",
+    )
 
 
 class PatientProfileRead(BaseModel):
@@ -57,14 +61,28 @@ class PatientProfileRead(BaseModel):
     language: str
     resting_hr_baseline: Optional[int] = None
     target_hr_max: Optional[int] = None
+    height_cm: Optional[float] = None
+    sex_at_birth: Optional[SexAtBirth] = None
 
 
 class PatientProfileUpdate(BaseModel):
+    """Fields a patient may change about themselves.
+
+    Deliberately excludes clinician_id: reassignment is a clinical act, not a
+    profile edit, and letting a patient set it would let them read another
+    clinician's rota and message a stranger.
+    """
+
+    full_name: Optional[str] = Field(default=None, min_length=1, max_length=120)
     date_of_birth: Optional[date] = None
     primary_condition: Optional[str] = Field(default=None, max_length=200)
     language: Optional[str] = Field(default=None, max_length=5)
     resting_hr_baseline: Optional[int] = Field(default=None, ge=30, le=140)
     target_hr_max: Optional[int] = Field(default=None, ge=60, le=220)
+    # Needed by the six-minute walk test's predicted-distance equation, which is
+    # why a patient is asked for them at all.
+    height_cm: Optional[float] = Field(default=None, ge=100, le=250)
+    sex_at_birth: Optional[SexAtBirth] = None
 
 
 class MeResponse(BaseModel):

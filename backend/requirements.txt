@@ -3,9 +3,16 @@ uvicorn[standard]>=0.32
 sqlalchemy[asyncio]>=2.0.36
 aiosqlite>=0.20
 asyncpg>=0.30
+# Vector column type and operators for the Postgres retrieval path.
+pgvector>=0.3.6
 alembic>=1.14
 pydantic>=2.9
 pydantic-settings>=2.6
+# Required by pydantic's EmailStr, used on the registration and login schemas.
+email-validator>=2.2
+# Avatars are decoded and re-encoded rather than stored as uploaded; see
+# app/services/avatars.py for why that is the security boundary.
+pillow>=11.0
 bcrypt>=4.0,<5
 pyjwt>=2.9
 python-multipart>=0.0.12
