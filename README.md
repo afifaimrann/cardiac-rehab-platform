@@ -1,27 +1,40 @@
+<div align="center">
+
 # Cardiac Rehab Platform
 
-A remote cardiac rehabilitation service. Patients log vital signs, symptoms and
-exercise sessions, record six-minute walk tests, book video or in-person
-consultations from their clinician's rota, and message their care team; a rule
-engine evaluates every submission and raises flags for clinician review;
-clinicians work a caseload prioritised by clinical urgency, run a diary, and
-question an assistant that reads one patient's record.
+**Remote cardiac rehabilitation, in Bangla and English — with the safety
+boundaries written into the types and the tests, not into the prompt.**
 
-Built as a single-developer project: FastAPI + PostgreSQL on the back end,
-React + TypeScript on the front, with an emphasis on the parts that are usually
-skipped — authorisation boundaries, pagination that does not lose rows,
-reversible migrations, and tests that assert the boundaries hold.
+[![CI](https://github.com/afifaimrann/cardiac-rehab-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/afifaimrann/cardiac-rehab-platform/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-349%20passing-186c3b)](#testing)
+![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
+![React 18](https://img.shields.io/badge/react-18-149eca)
+![Licence](https://img.shields.io/badge/licence-MIT-lightgrey)
+
+[Quick start](#quick-start) ·
+[What's interesting here](#whats-interesting-here) ·
+[Architecture](#architecture) ·
+[Testing](#testing) ·
+[Limitations](#known-limitations)
+
+</div>
+
+Patients log vital signs, symptoms and exercise sessions, record six-minute walk
+tests, book video consultations from their clinician's rota, and message their
+care team. A rule engine evaluates every submission and raises flags for review.
+Clinicians work a caseload ordered by clinical urgency, publish a diary, and
+question an assistant that reads one patient's record and cannot reach another's.
+
+Built end to end by one developer, with the emphasis on the parts usually
+skipped: authorisation boundaries, pagination that does not lose rows, reversible
+migrations, and tests that assert the boundaries hold.
 
 > **Not a medical device.** The thresholds in the risk engine are illustrative
 > and this system has not been clinically validated.
 
-![CI](https://github.com/afifaimrann/cardiac-rehab-platform/actions/workflows/ci.yml/badge.svg)
-![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![React 18](https://img.shields.io/badge/react-18-149eca)
-![Tests](https://img.shields.io/badge/tests-349%20passing-186c3b)
-![Licence](https://img.shields.io/badge/licence-MIT-lightgrey)
-
 ---
+
+## The interface
 
 *Patient screens in light, clinician screens in dark — the interface ships with
 both, and severity colours are tuned separately for each ground rather than
@@ -125,7 +138,8 @@ nonsense embeddings, which is enough to see the plumbing work but not the
 answers.
 
 The schema and the corpus are separate concerns: dropping the database drops the
-corpus with it, and only this script puts it back.
+corpus with it, and only this script puts it back. The server logs a warning at
+startup if it finds the corpus empty.
 
 ### Demo accounts
 
@@ -205,7 +219,8 @@ frontend/src/
 ```
 
 Full reference: [API and authorisation](docs/api.md) ·
-[repository layout](docs/decisions.md#repository-layout)
+[repository layout](docs/decisions.md#repository-layout) ·
+[security and threat model](SECURITY.md)
 
 ---
 
@@ -222,10 +237,11 @@ another. An autouse fixture clears the API key, so no test can make a billable
 call. CI additionally checks that migrations apply, match the models, and
 downgrade to base cleanly.
 
-Worth stating plainly: all 347 passed while four real defects sat in the
-application — a timezone offset, an input accepting out-of-range values, a
-counter frozen at zero mid-rest, and a table overflowing its container. Tests
-assert behaviour, not what a screen looks like. Both kinds of checking matter.
+Worth stating plainly: an earlier green suite of 347 tests passed while four real
+defects sat in the application — a timezone offset, an input accepting
+out-of-range values, a counter frozen at zero mid-rest, and a table overflowing
+its container. All four were found by using the thing. Tests assert behaviour,
+not what a screen looks like; both kinds of checking matter.
 
 ---
 
@@ -260,6 +276,7 @@ believable.
 | [Clinical logic](docs/clinical.md) | Risk rules, the walk test, scheduling |
 | [The two assistants](docs/assistants.md) | Retrieval, safety, the reranking investigation |
 | [Design decisions](docs/decisions.md) | Choices that are not obvious from the code |
+| [Security](SECURITY.md) | Threat model, and what is deliberately not solved |
 
 ## Licence
 
