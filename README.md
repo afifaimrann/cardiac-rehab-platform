@@ -23,42 +23,66 @@ reversible migrations, and tests that assert the boundaries hold.
 
 ---
 
-**The patient's record.** What is next, what was flagged, and the trend behind
-it. The blood-pressure chart shows the hypertensive crisis on 30 August that
-raised the severe flag above it.
+*Patient screens in light, clinician screens in dark — the interface ships with
+both, and severity colours are tuned separately for each ground rather than
+inverted.*
+
+### The patient
+
+**What is next, what was flagged, and the trend behind it.** The severe flag at
+the top was raised by the assistant itself, from a message written in Bangla.
+The chart below shows the hypertensive crisis that raised the one under it.
 
 ![Patient overview](docs/screenshots/patient-overview.png)
 
 **The six-minute walk test, mid-walk.** The clock keeps running through a rest,
-as the protocol requires. Rests and the oxygen nadir are captured by the timer
-rather than typed from memory afterwards.
+as the protocol requires. Rests and the oxygen nadir are captured by the timer —
+"lowest 86%" turns red the moment it is logged — rather than recalled afterwards
+and typed into a form.
 
 ![Six-minute walk test](docs/screenshots/walk-test.png)
 
-**The caseload**, ordered by clinical urgency, beside a queue of flags raised
-automatically from patient data.
+**Bangla in, Bangla out, English corpus.** Above, a question about chest pain is
+caught before retrieval runs and answered with escalation advice, not guidance —
+and the patient is told her care team has been informed, which is true: it
+raises a severe flag. Below it, an ordinary question is answered from English
+source passages, in Bangla, with the citation marker intact.
 
-![Clinician caseload](docs/screenshots/caseload.png)
+![The assistant answering in Bangla](docs/screenshots/bangla-assistant.png)
 
-**The clinician's assistant**, answering from one patient's record. The chips
-under each answer say which parts of the record it actually read.
+**Booking, with no waiting for a call back.** The 10:00 slot is missing from
+Tuesday's row because it is already taken; slots are generated from the rota on
+read and a unique constraint stops two patients taking one.
 
-![The clinician's assistant](docs/screenshots/assistant.png)
-
-<details>
-<summary>Two more screens</summary>
-
-**One patient, five tabs** — record, assistant, messages, walk tests and
-appointments in one place.
-
-![One patient's record](docs/screenshots/patient-record.png)
+![Appointments](docs/screenshots/appointments.png)
 
 **Messaging**, deliberately separate from the assistant: a patient must never be
 unsure whether they are writing to a person or to software.
 
 ![Messaging](docs/screenshots/messages.png)
 
-</details>
+### The clinician
+
+**The caseload**, ordered by clinical urgency, beside a queue of flags raised
+automatically from patient data — including the Bangla one, quoted verbatim.
+
+![Clinician caseload](docs/screenshots/caseload.png)
+
+**The assistant**, answering from one patient's record. The chips under each
+answer say which parts of the record it actually read, and it reads only the
+ones it needs.
+
+![The clinician's assistant](docs/screenshots/assistant.png)
+
+**One patient, five tabs** — record, assistant, messages, walk tests and
+appointments in one place.
+
+![One patient's record](docs/screenshots/patient-record.png)
+
+**The diary.** A weekly rota published once, rather than individual slots
+written out and maintained by hand.
+
+![Clinician diary](docs/screenshots/diary.png)
 
 ---
 
