@@ -57,13 +57,13 @@ export function ClinicianPatientPage({ patient, onBack }: {
               aria-current={tab === t.key ? "page" : undefined}
               className={cn(
                 "relative flex shrink-0 items-center gap-2 px-3.5 py-3 text-[13.5px] font-medium transition-colors duration-150",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40",
-                tab === t.key ? "text-teal-500" : "text-ink-muted hover:text-ink",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40",
+                tab === t.key ? "text-accent-500" : "text-ink-muted hover:text-ink",
               )}
             >
               {t.icon} {t.label}
               {tab === t.key && (
-                <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-teal-500" />
+                <span className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-accent-500" />
               )}
             </button>
           ))}
@@ -79,8 +79,8 @@ export function ClinicianPatientPage({ patient, onBack }: {
             </div>
           </div>
         )}
-        {tab === "messages" && <MessagesPage patientId={patient.patient_id} />}
-        {tab === "walk" && <WalkTestPage patientId={patient.patient_id} />}
+        {tab === "messages" && <MessagesPage patientId={patient.patient_id} embedded />}
+        {tab === "walk" && <WalkTestPage patientId={patient.patient_id} embedded />}
         {tab === "appointments" && <AppointmentsTab patientId={patient.patient_id} />}
       </div>
     </div>

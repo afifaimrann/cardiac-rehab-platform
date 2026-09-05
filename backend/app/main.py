@@ -68,6 +68,7 @@ async def lifespan(app: FastAPI):
     # column left the database half-migrated with Alembic unaware. Checking and
     # refusing to guess is better than a convenience that corrupts state.
     await verify_schema()
+    await warn_if_corpus_empty()
     yield
     await engine.dispose()
     logger.info("Database connections closed")
@@ -93,6 +94,31 @@ async def verify_schema() -> None:
             "Run `alembic upgrade head`."
         )
     logger.info("Schema verified: %d tables", len(expected))
+
+
+async def warn_if_corpus_empty() -> None:
+    """Say so loudly when there is nothing to retrieve.
+
+    An empty corpus is not a crash: the API starts, every endpoint works, and
+    the assistant answers "I don't have guidance on that" to everything. That is
+    a far worse failure than a stack trace, because it looks like a bad model
+    rather than a missing setup step -- and dropping the database drops the
+    corpus with it, so it happens exactly when someone is resetting their data.
+    """
+    from sqlalchemy import func, select
+
+    from app.models.knowledge import KnowledgePassage
+
+    async with engine.connect() as conn:
+        count = await conn.scalar(select(func.count()).select_from(KnowledgePassage))
+
+    if not count:
+        logger.warning(
+            "Knowledge corpus is EMPTY -- the assistant will answer every question "
+            "with 'I don't have guidance on that'. Run: python -m scripts.embed_corpus"
+        )
+    else:
+        logger.info("Knowledge corpus: %d passages", count)
 
 
 app = FastAPI(

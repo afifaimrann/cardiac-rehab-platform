@@ -169,7 +169,7 @@ export function AskPanel() {
                     <button
                       key={s}
                       onClick={() => void send(s)}
-                      className="rounded-[12px] border border-line bg-surface px-4 py-3 text-start text-[13.5px] text-ink-soft transition-colors duration-150 hover:border-teal-400 hover:text-ink"
+                      className="rounded-[12px] border border-line bg-surface px-4 py-3 text-start text-[13.5px] text-ink-soft transition-colors duration-150 hover:border-accent-400 hover:text-ink"
                     >
                       {s}
                     </button>
@@ -198,7 +198,7 @@ export function AskPanel() {
               </p>
             )}
             <form onSubmit={submit}
-              className="flex items-end gap-2 rounded-[14px] border border-line-strong bg-surface p-2 transition-[border-color,box-shadow] duration-150 focus-within:border-teal-400 focus-within:ring-4 focus-within:ring-teal-400/10">
+              className="flex items-end gap-2 rounded-[14px] border border-line-strong bg-surface p-2 transition-[border-color,box-shadow] duration-150 focus-within:border-accent-400 focus-within:ring-4 focus-within:ring-accent-400/10">
               <textarea
                 ref={inputRef}
                 rows={1}
@@ -250,7 +250,7 @@ function Bubble({ message }: { message: ChatMessage }) {
     return (
       <div className="animate-rise mb-6 flex justify-end">
         <div className={cn(
-          "max-w-[85%] rounded-[16px] rounded-ee-[6px] bg-teal-500 px-4 py-2.5 text-[14.5px] leading-relaxed text-white",
+          "max-w-[85%] rounded-[16px] rounded-ee-[6px] bg-accent-500 px-4 py-2.5 text-[14.5px] leading-relaxed text-white",
           bengali && "bn",
         )}>
           {message.transcribed_from_audio && (

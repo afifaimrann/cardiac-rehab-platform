@@ -135,7 +135,7 @@ export function AppointmentsPage() {
                         onChange={(e) => setReason(e.target.value)}
                         placeholder="More breathless than usual on stairs"
                         maxLength={300}
-                        className="h-10 w-full rounded-[10px] border border-line-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint focus:border-teal-400 focus:outline-none focus:ring-4 focus:ring-teal-400/12"
+                        className="h-10 w-full rounded-[10px] border border-line-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-accent-400/12"
                       />
                     </label>
 
@@ -157,10 +157,10 @@ export function AppointmentsPage() {
                               className={cn(
                                 "h-9 rounded-[9px] border border-line-strong bg-surface px-3.5 text-[13px] font-medium tnum text-ink-soft",
                                 "transition-[border-color,background-color,color] duration-150",
-                                "hover:border-teal-400 hover:bg-teal-50 hover:text-teal-500",
-                                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40",
+                                "hover:border-accent-400 hover:bg-accent-50 hover:text-accent-500",
+                                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40",
                                 "disabled:pointer-events-none disabled:opacity-45",
-                                busy === slot.starts_at && "border-teal-400 bg-teal-50 text-teal-500",
+                                busy === slot.starts_at && "border-accent-400 bg-accent-50 text-accent-500",
                               )}
                             >
                               {formatTime(slot.starts_at)}
@@ -219,10 +219,10 @@ function NextAppointment({ appointment: a, busy, onCancel }: {
     && minutesAway < 15 && minutesAway > -60;
 
   return (
-    <Card className={cn(joinable && "border-teal-400/50 bg-teal-50/40")}>
+    <Card className={cn(joinable && "border-accent-400/50 bg-accent-50/40")}>
       <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
         <div className="flex min-w-0 items-center gap-4">
-          <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-[11px] bg-teal-500 text-white">
+          <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-[11px] bg-accent-500 text-white">
             {a.mode === "online" ? <Video size={18} /> : <MapPin size={18} />}
           </div>
           <div className="min-w-0">

@@ -25,7 +25,7 @@ export function Sparkline({
   const path = points.map((v, i) => `${i === 0 ? "M" : "L"}${scaleX(i).toFixed(1)},${scaleY(v).toFixed(1)}`).join(" ");
   const stroke = tone === "bad" ? "var(--color-severe-fg)"
     : tone === "warn" ? "var(--color-moderate-fg)"
-    : "var(--color-teal-500)";
+    : "var(--color-accent-500)";
 
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}

@@ -80,16 +80,16 @@ function Tile({ icon, label, value, hint, highlight, onClick }: {
   return (
     <Card className={cn(
       "transition-[border-color,box-shadow,transform] duration-150",
-      highlight && "border-teal-400/50 bg-teal-50/40",
+      highlight && "border-accent-400/50 bg-accent-50/40",
     )}>
       <button
         type="button"
         onClick={onClick}
-        className="flex w-full items-start gap-3 px-5 py-4 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 focus-visible:ring-inset rounded-[14px]"
+        className="flex w-full items-start gap-3 px-5 py-4 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40 focus-visible:ring-inset rounded-[14px]"
       >
         <span className={cn(
           "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px]",
-          highlight ? "bg-teal-500 text-white" : "bg-surface-sunk text-ink-muted",
+          highlight ? "bg-accent-500 text-white" : "bg-surface-sunk text-ink-muted",
         )}>
           {icon}
         </span>

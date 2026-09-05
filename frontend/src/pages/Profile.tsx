@@ -129,7 +129,7 @@ export function ProfilePage() {
                 <Avatar name={user.full_name} src={user.avatar_url} size={84} />
                 {uploading && (
                   <span className="absolute inset-0 flex items-center justify-center rounded-full bg-surface/70">
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-teal-500 border-t-transparent" />
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent-500 border-t-transparent" />
                   </span>
                 )}
               </div>
@@ -253,9 +253,9 @@ function Choice({ label, hint, options, value, onChange }: {
             aria-pressed={value === o.value}
             className={cn(
               "h-9 rounded-[9px] border px-3.5 text-[13px] font-medium transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40",
               value === o.value
-                ? "border-teal-400 bg-teal-50 text-teal-500"
+                ? "border-accent-400 bg-accent-50 text-accent-500"
                 : "border-line-strong bg-surface text-ink-soft hover:border-ink-faint",
             )}
           >

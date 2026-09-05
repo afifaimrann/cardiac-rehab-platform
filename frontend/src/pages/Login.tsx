@@ -48,7 +48,7 @@ export function Login() {
     <div className="flex min-h-full items-center justify-center px-4 py-12">
       <div className="w-full max-w-[380px]">
         <div className="mb-8 flex flex-col items-center text-center">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-[14px] bg-teal-500 text-white shadow-[0_2px_10px_rgba(31,99,87,.30)]">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-[14px] bg-accent-500 text-white shadow-[0_2px_10px_rgba(31,99,87,.30)]">
             <HeartPulse size={24} strokeWidth={2.2} />
           </div>
           <h1 className="font-serif text-[26px] leading-tight tracking-[-0.015em] text-ink">

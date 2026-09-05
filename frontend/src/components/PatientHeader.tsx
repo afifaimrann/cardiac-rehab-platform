@@ -37,7 +37,7 @@ export function PatientHeader({
           rather than a table; not enough to tint anything clinical. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[132px] bg-gradient-to-b from-teal-50 to-transparent opacity-70"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[132px] bg-gradient-to-b from-accent-50 to-transparent opacity-70"
       />
 
       <div className={`${CONTENT} relative flex flex-wrap items-start gap-5 py-6`}>
@@ -80,7 +80,7 @@ export function PatientHeader({
               </div>
               <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-sunk">
                 <div
-                  className="h-full rounded-full bg-teal-500 transition-[width] duration-700"
+                  className="h-full rounded-full bg-accent-500 transition-[width] duration-700"
                   style={{ width: `${progress * 100}%` }}
                 />
               </div>

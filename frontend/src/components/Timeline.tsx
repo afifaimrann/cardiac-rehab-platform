@@ -71,7 +71,7 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
             e.kind === "flag" && e.severity === "severe" && "border-severe-fg/30 bg-severe-bg text-severe-fg",
             e.kind === "flag" && e.severity !== "severe" && "border-moderate-fg/30 bg-moderate-bg text-moderate-fg",
             e.kind === "symptom" && "border-line-strong bg-surface text-ink-muted",
-            e.kind === "session" && "border-line-strong bg-surface text-teal-500",
+            e.kind === "session" && "border-line-strong bg-surface text-accent-500",
             e.kind === "vitals" && "border-line-strong bg-surface text-ink-muted",
           )}>
             {ICONS[e.kind]}

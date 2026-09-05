@@ -57,6 +57,17 @@ left the next model to reintroduce it, so `UtcDateTime` normalises both
 directions in the type itself, and a regression test asserts every timestamp
 leaves the API with an offset.
 
+**One accent, and it is the opposite of the alarm colour.** Blue for every
+action, red reserved for clinical severity. They sit opposite each other on the
+wheel, so a button and a flag can never be mistaken for the same kind of thing —
+which matters more here than in most software, because the flags are the point.
+Severity is the only saturated colour in the system; everything else is a cool
+near-neutral, so a flag is always the most vivid thing on screen.
+
+The ground is a cool white rather than a warm one. Warm paper looks handsome in
+isolation and slightly jaundiced next to a chart, which is what this interface
+is actually read beside.
+
 **Charting split into a lazily loaded chunk.** recharts is the single largest
 dependency and only the patient view renders a chart; clinicians never download
 it. The main bundle is ~50 kB, the chart chunk loads on demand.

@@ -16,7 +16,12 @@ import { cn, formatDateTime } from "@/lib/utils";
  * software. The banner, the avatars and the reply latency notice all exist to
  * make the difference obvious.
  */
-export function MessagesPage({ patientId }: { patientId?: string }) {
+export function MessagesPage({ patientId, embedded }: {
+  patientId?: string;
+  /** Rendered inside the patient record's tab strip, which already shows who
+   *  this is. A second page header under the first reads as two pages stacked. */
+  embedded?: boolean;
+}) {
   const { user } = useAuth();
   const [thread, setThread] = useState<MessageThread | null>(null);
   const [draft, setDraft] = useState("");
@@ -58,12 +63,12 @@ export function MessagesPage({ patientId }: { patientId?: string }) {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <PageHeader
-        title={asClinician ? "Messages" : "Your care team"}
-        subtitle={thread?.counterparty_name
-          ? asClinician ? `With ${thread.counterparty_name}` : `With ${thread.counterparty_name}`
-          : undefined}
-      />
+      {!embedded && (
+        <PageHeader
+          title={asClinician ? "Messages" : "Your care team"}
+          subtitle={thread?.counterparty_name ? `With ${thread.counterparty_name}` : undefined}
+        />
+      )}
 
       {!asClinician && (
         <div className="border-b border-line bg-mild-bg/40">
@@ -112,7 +117,7 @@ export function MessagesPage({ patientId }: { patientId?: string }) {
               rows={2}
               maxLength={4000}
               placeholder={asClinician ? "Reply to your patient…" : "Write to your care team…"}
-              className="max-h-40 min-h-[52px] flex-1 resize-y rounded-[12px] border border-line-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint focus:border-teal-400 focus:outline-none focus:ring-4 focus:ring-teal-400/12"
+              className="max-h-40 min-h-[52px] flex-1 resize-y rounded-[12px] border border-line-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-accent-400/12"
             />
             <Button onClick={() => void send()} disabled={sending || !draft.trim()} className="h-[52px]">
               <Send size={16} /> Send
@@ -132,7 +137,7 @@ function Bubble({ message, mine }: { message: DirectMessage; mine: boolean }) {
         <div className={cn(
           "inline-block rounded-[14px] px-4 py-2.5 text-start text-[14px] leading-relaxed",
           mine
-            ? "bg-teal-500 text-white"
+            ? "bg-accent-500 text-white"
             : "border border-line bg-surface text-ink",
         )}>
           {message.body}

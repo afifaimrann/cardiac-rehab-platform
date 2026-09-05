@@ -241,7 +241,7 @@ export function PatientOverview({ onAsk, onNavigate }: {
                   action={
                     <div className="flex items-center gap-3.5 pt-1 text-[11.5px] text-ink-muted">
                       <span className="inline-flex items-center gap-1.5">
-                        <span className="h-[2px] w-4 rounded-full bg-teal-500" /> Systolic
+                        <span className="h-[2px] w-4 rounded-full bg-accent-500" /> Systolic
                       </span>
                       <span className="inline-flex items-center gap-1.5">
                         <span className="h-0 w-4 border-t-2 border-dashed border-ink-faint" /> Diastolic

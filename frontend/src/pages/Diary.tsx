@@ -93,7 +93,7 @@ export function DiaryPage() {
                         <div className="flex min-w-0 items-center gap-3.5">
                           <span className={cn(
                             "flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px]",
-                            a.mode === "online" ? "bg-teal-50 text-teal-500" : "bg-surface-sunk text-ink-muted",
+                            a.mode === "online" ? "bg-accent-50 text-accent-500" : "bg-surface-sunk text-ink-muted",
                           )}>
                             {a.mode === "online" ? <Video size={16} /> : <MapPin size={16} />}
                           </span>
@@ -155,7 +155,7 @@ export function DiaryPage() {
                   <select
                     value={form.weekday}
                     onChange={(e) => setForm({ ...form, weekday: Number(e.target.value) })}
-                    className="h-10 w-full rounded-[10px] border border-line-strong bg-surface px-3 text-sm text-ink focus:border-teal-400 focus:outline-none"
+                    className="h-10 w-full rounded-[10px] border border-line-strong bg-surface px-3 text-sm text-ink focus:border-accent-400 focus:outline-none"
                   >
                     {WEEKDAYS.map((d, i) => <option key={d} value={i}>{d}</option>)}
                   </select>
@@ -175,7 +175,7 @@ export function DiaryPage() {
                   <select
                     value={form.slot_minutes}
                     onChange={(e) => setForm({ ...form, slot_minutes: Number(e.target.value) })}
-                    className="h-10 w-full rounded-[10px] border border-line-strong bg-surface px-3 text-sm text-ink focus:border-teal-400 focus:outline-none"
+                    className="h-10 w-full rounded-[10px] border border-line-strong bg-surface px-3 text-sm text-ink focus:border-accent-400 focus:outline-none"
                   >
                     {[15, 20, 30, 45, 60].map((m) => <option key={m} value={m}>{m} minutes</option>)}
                   </select>
@@ -190,7 +190,7 @@ export function DiaryPage() {
                       className={cn(
                         "h-9 flex-1 rounded-[9px] border text-[13px] font-medium transition-colors duration-150",
                         form.mode === m
-                          ? "border-teal-400 bg-teal-50 text-teal-500"
+                          ? "border-accent-400 bg-accent-50 text-accent-500"
                           : "border-line-strong bg-surface text-ink-soft hover:border-ink-faint",
                       )}
                     >
@@ -211,7 +211,10 @@ export function DiaryPage() {
               </div>
             )}
 
-            {rules.length === 0 && !adding ? (
+            {loading ? <Spinner /> : rules.length === 0 && !adding ? (
+              // Checked against `loading` as well as the count: rendering the
+              // empty state during the fetch told a clinician that patients
+              // could not book with them, which was both false and alarming.
               <EmptyState title="No availability published"
                 hint="Until you add a window, patients cannot book with you." />
             ) : (

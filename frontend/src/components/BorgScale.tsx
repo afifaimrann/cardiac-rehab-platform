@@ -40,9 +40,9 @@ export function BorgScale({ label, value, onChange }: {
             title={ANCHORS[step] ?? undefined}
             className={cn(
               "h-9 min-w-9 rounded-[9px] border px-2 text-[13px] font-medium tnum transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40",
               value === step
-                ? "border-teal-500 bg-teal-500 text-white"
+                ? "border-accent-500 bg-accent-500 text-white"
                 : "border-line-strong bg-surface text-ink-soft hover:border-ink-faint hover:text-ink",
             )}
           >

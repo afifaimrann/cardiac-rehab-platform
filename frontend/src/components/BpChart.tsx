@@ -27,7 +27,7 @@ function usePalette() {
       setPalette({
         line: get("--color-line", "#e7e2d9"),
         muted: get("--color-ink-muted", "#7d766c"),
-        accent: get("--color-teal-500", "#a8562f"),
+        accent: get("--color-accent-500", "#a8562f"),
         surface: get("--color-surface", "#ffffff"),
         ink: get("--color-ink", "#1c1a17"),
       });

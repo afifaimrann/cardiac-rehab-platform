@@ -44,12 +44,12 @@ export function Button({ variant = "primary", size = "md", className, ...props }
         "inline-flex select-none items-center justify-center gap-2 rounded-[10px] font-medium",
         "transition-[background-color,border-color,color,box-shadow,transform] duration-150",
         "active:scale-[.985]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
         "disabled:pointer-events-none disabled:opacity-45",
         size === "sm" && "h-8 px-3 text-[13px]",
         size === "md" && "h-10 px-4 text-sm",
         size === "icon" && "h-10 w-10",
-        variant === "primary" && "bg-teal-500 text-white hover:bg-teal-600 shadow-[0_1px_2px_rgba(28,26,23,.10)]",
+        variant === "primary" && "bg-accent-500 text-white hover:bg-accent-600 shadow-[0_1px_2px_rgba(28,26,23,.10)]",
         variant === "secondary" && "border border-line-strong bg-surface text-ink-soft hover:border-ink-faint hover:text-ink",
         variant === "ghost" && "text-ink-muted hover:bg-surface-sunk hover:text-ink",
         variant === "danger" && "bg-severe-fg text-white hover:opacity-90",
@@ -68,7 +68,7 @@ export function Field({ label, hint, className, ...props }: InputHTMLAttributes<
         className={cn(
           "h-10 w-full rounded-[10px] border border-line-strong bg-surface px-3 text-sm text-ink",
           "placeholder:text-ink-faint transition-[border-color,box-shadow] duration-150",
-          "focus:border-teal-400 focus:outline-none focus:ring-4 focus:ring-teal-400/12",
+          "focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-accent-400/12",
           "tnum", className,
         )}
         {...props}
@@ -122,7 +122,7 @@ export function EmptyState({ icon, title, hint }: { icon?: ReactNode; title: str
 export function Spinner({ label }: { label?: string }) {
   return (
     <div className="flex items-center justify-center gap-2.5 px-5 py-10 text-[13px] text-ink-muted">
-      <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-line-strong border-t-teal-500" />
+      <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-line-strong border-t-accent-500" />
       {label}
     </div>
   );

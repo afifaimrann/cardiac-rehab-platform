@@ -33,7 +33,12 @@ function ago(iso: string): string {
 const num = (v: string) => (v === "" ? undefined : Number(v));
 const str = (v: number | null | undefined) => (v == null ? "" : String(v));
 
-export function WalkTestPage({ patientId }: { patientId?: string }) {
+export function WalkTestPage({ patientId, embedded }: {
+  patientId?: string;
+  /** Inside the patient record's tabs: the tab strip already names the screen,
+   *  so only the action belongs here, not a second title. */
+  embedded?: boolean;
+}) {
   const [stage, setStage] = useState<Stage>("history");
   const [history, setHistory] = useState<WalkTestRecord[]>([]);
   const [prefill, setPrefill] = useState<WalkTestPrefill | null>(null);
@@ -200,13 +205,26 @@ export function WalkTestPage({ patientId }: { patientId?: string }) {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <PageHeader
-        title="Six-minute walk test"
-        subtitle="Functional capacity, measured on a flat 30-metre course"
-        action={stage === "history"
-          ? <Button onClick={beginTest}><Footprints size={16} /> Start a test</Button>
-          : <Button variant="secondary" onClick={restart}>Cancel</Button>}
-      />
+      {embedded ? (
+        <div className="border-b border-line">
+          <div className={`${CONTENT} flex items-center justify-between gap-4 py-3.5`}>
+            <p className="text-[13px] text-ink-muted">
+              Functional capacity, measured on a flat 30-metre course
+            </p>
+            {stage === "history"
+              ? <Button onClick={beginTest}><Footprints size={16} /> Start a test</Button>
+              : <Button variant="secondary" onClick={restart}>Cancel</Button>}
+          </div>
+        </div>
+      ) : (
+        <PageHeader
+          title="Six-minute walk test"
+          subtitle="Functional capacity, measured on a flat 30-metre course"
+          action={stage === "history"
+            ? <Button onClick={beginTest}><Footprints size={16} /> Start a test</Button>
+            : <Button variant="secondary" onClick={restart}>Cancel</Button>}
+        />
+      )}
 
       <div className="flex-1 overflow-y-auto py-6">
         <div className={`${CONTENT} space-y-5`}>
@@ -356,7 +374,7 @@ export function WalkTestPage({ patientId }: { patientId?: string }) {
                   </div>
                 ) : (
                   <button type="button" onClick={() => setShowBaselineBorg(true)}
-                    className="text-[13px] text-teal-500 underline-offset-4 hover:underline">
+                    className="text-[13px] text-accent-500 underline-offset-4 hover:underline">
                     Add baseline breathlessness and fatigue (optional)
                   </button>
                 )}
@@ -423,7 +441,7 @@ export function WalkTestPage({ patientId }: { patientId?: string }) {
                         type="number" min={50} max={100} value={after.lowest_spo2}
                         onChange={(e) => setAfter({ ...after, lowest_spo2: e.target.value })}
                         placeholder="93"
-                        className="mt-1 h-9 w-full rounded-[9px] border border-line-strong bg-surface px-3 text-sm tnum text-ink focus:border-teal-400 focus:outline-none focus:ring-4 focus:ring-teal-400/12"
+                        className="mt-1 h-9 w-full rounded-[9px] border border-line-strong bg-surface px-3 text-sm tnum text-ink focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-accent-400/12"
                       />
                     </label>
                   )}
@@ -446,7 +464,7 @@ export function WalkTestPage({ patientId }: { patientId?: string }) {
                     distance{prefill.weight_recorded_at ? ` (logged ${ago(prefill.weight_recorded_at)})` : ""}.{" "}
                     <button type="button"
                       onClick={() => setAfter({ ...after, weight_kg: String(prefill.weight_kg) })}
-                      className="text-teal-500 underline-offset-4 hover:underline">
+                      className="text-accent-500 underline-offset-4 hover:underline">
                       Weighed today?
                     </button>
                   </p>
@@ -675,7 +693,7 @@ function History({ history, latest }: { history: WalkTestRecord[]; latest?: Walk
                 <div className="flex w-[42%] items-center gap-2">
                   <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-sunk">
                     <div className={cn("h-full rounded-full",
-                      t.below_lower_limit ? "bg-moderate-fg" : "bg-teal-500")}
+                      t.below_lower_limit ? "bg-moderate-fg" : "bg-accent-500")}
                       style={{ width: `${(t.distance_m / max) * 100}%` }} />
                   </div>
                   {t.percent_predicted != null && (

@@ -1,45 +1,52 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   Warm editorial palette.
+   Clinical palette.
 
-   A paper-like ground rather than clinical white, one muted teal
-   accent reserved for actions, and saturated colour used only for
-   clinical severity — so a flag is always the most vivid thing on
-   screen and nothing else competes with it.
+   A cool white ground rather than a warm one — health software
+   is read beside charts and scans, and a warm cast makes
+   everything on the page look faintly jaundiced. One blue
+   accent reserved for actions, and saturated colour used only
+   for clinical severity, so a flag is always the most vivid
+   thing on screen and nothing else competes with it.
+
+   Blue sits opposite red on the wheel. That is the point: an
+   action and an alarm must never read as the same family.
    ───────────────────────────────────────────────────────────── */
 @theme {
-  /* Ground and surfaces */
-  --color-paper:        #faf8f5;
+  /* Ground and surfaces — a cool, clinical white rather than a warm paper.
+     Health software is read next to charts and scans; a warm cast makes
+     everything on the page look slightly jaundiced. */
+  --color-paper:        #f7f9fc;
   --color-surface:      #ffffff;
-  --color-surface-sunk: #f3f0eb;
-  --color-line:         #e7e2d9;
-  --color-line-strong:  #d8d1c5;
+  --color-surface-sunk: #eef2f7;
+  --color-line:         #dfe6ee;
+  --color-line-strong:  #c9d4e0;
 
-  /* Text */
-  --color-ink:          #1c1a17;
-  --color-ink-soft:     #4a4640;
-  --color-ink-muted:    #7d766c;
-  --color-ink-faint:    #a49c90;
+  /* Text — blue-black rather than neutral grey, so it belongs to the ground */
+  --color-ink:          #0f1b2a;
+  --color-ink-soft:     #3c4a5a;
+  --color-ink-muted:    #65758a;
+  --color-ink-faint:    #93a1b3;
 
-  /* Accent — deep teal. Chosen for maximum distance from the red severity
-     scale: an action and an alarm must never be the same family of colour. */
-  --color-teal-50:      #eef5f3;
-  --color-teal-100:     #d5e7e2;
-  --color-teal-400:     #3d8a7b;
-  --color-teal-500:     #1f6357;
-  --color-teal-600:     #185046;
-  --color-teal-700:     #123d36;
+  /* Accent. Blue is what clinical software looks like, and it sits opposite
+     red on the wheel — an action and an alarm must never be confused. */
+  --color-accent-50:    #eef4ff;
+  --color-accent-100:   #dbe7fe;
+  --color-accent-400:   #4b8bf5;
+  --color-accent-500:   #1f6feb;
+  --color-accent-600:   #1a5fcc;
+  --color-accent-700:   #14489c;
 
   /* Clinical severity — the only saturated colours in the system */
-  --color-mild-bg:      #fdf4e3;
+  --color-mild-bg:      #fdf6e3;
   --color-mild-fg:      #8a6410;
-  --color-moderate-bg:  #fbeade;
-  --color-moderate-fg:  #9c4a13;
-  --color-severe-bg:    #fbe8e6;
-  --color-severe-fg:    #a32020;
-  --color-good-bg:      #eaf3ec;
-  --color-good-fg:      #2b6340;
+  --color-moderate-bg:  #fdf0dd;
+  --color-moderate-fg:  #9a5b06;
+  --color-severe-bg:    #fdeaea;
+  --color-severe-fg:    #c1291f;
+  --color-good-bg:      #e4f3ea;
+  --color-good-fg:      #186c3b;
 
   --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Newsreader", Georgia, serif;
@@ -51,34 +58,33 @@
 /* Dark: the same relationships, re-grounded. Not inverted — a warm dark
    keeps the paper feeling rather than turning into a terminal. */
 :root[data-theme="dark"] {
-  --color-paper:        #16151300;
-  --color-paper:        #131312;
-  --color-surface:      #1c1c1a;
-  --color-surface-sunk: #242422;
-  --color-line:         #2e2e2b;
-  --color-line-strong:  #3d3d39;
+  --color-paper:        #0c131c;
+  --color-surface:      #131c27;
+  --color-surface-sunk: #1b2632;
+  --color-line:         #26323f;
+  --color-line-strong:  #35434f;
 
-  --color-ink:          #ecebe8;
-  --color-ink-soft:     #c6c3bd;
-  --color-ink-muted:    #948f88;
-  --color-ink-faint:    #6c6862;
+  --color-ink:          #e9eef4;
+  --color-ink-soft:     #c2ccd8;
+  --color-ink-muted:    #8c9bab;
+  --color-ink-faint:    #64748b;
 
-  /* Lifted on a dark ground: #1f6357 goes nearly black against #161513. */
-  --color-teal-50:      #12211e;
-  --color-teal-100:     #183029;
-  --color-teal-400:     #5cae9c;
-  --color-teal-500:     #4a9b8a;
-  --color-teal-600:     #5cae9c;
-  --color-teal-700:     #86c9b9;
+  /* Lifted for a dark ground: #1f6feb reads almost black against #0c131c. */
+  --color-accent-50:    #131f30;
+  --color-accent-100:   #1a2c44;
+  --color-accent-400:   #74aaff;
+  --color-accent-500:   #5b9dff;
+  --color-accent-600:   #74aaff;
+  --color-accent-700:   #a3c7ff;
 
-  --color-mild-bg:      #2e2616;
-  --color-mild-fg:      #e3c078;
-  --color-moderate-bg:  #33210f;
-  --color-moderate-fg:  #eda06a;
-  --color-severe-bg:    #35191a;
-  --color-severe-fg:    #f18b86;
-  --color-good-bg:      #17281d;
-  --color-good-fg:      #86c99b;
+  --color-mild-bg:      #2c2410;
+  --color-mild-fg:      #e8c46a;
+  --color-moderate-bg:  #33230f;
+  --color-moderate-fg:  #f0a463;
+  --color-severe-bg:    #331a1c;
+  --color-severe-fg:    #f79490;
+  --color-good-bg:      #14281d;
+  --color-good-fg:      #7fc99a;
 }
 
 html, body, #root { height: 100%; }
@@ -99,7 +105,7 @@ body {
 
 .tnum { font-variant-numeric: tabular-nums; }
 
-::selection { background: var(--color-teal-100); color: var(--color-teal-700); }
+::selection { background: var(--color-accent-100); color: var(--color-accent-700); }
 
 /* Quiet scrollbars — the default Windows bar is the loudest element on a
    calm page. */

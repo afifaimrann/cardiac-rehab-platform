@@ -50,7 +50,7 @@ export function AppShell({
   return (
     <div className="flex h-full">
       <aside className="flex w-[68px] shrink-0 flex-col items-center gap-1 border-e border-line bg-surface/60 py-4">
-        <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-[11px] bg-teal-500 text-white">
+        <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-[11px] bg-accent-500 text-white">
           <HeartPulse size={18} strokeWidth={2.3} />
         </div>
 
@@ -80,7 +80,7 @@ export function AppShell({
             title={user?.full_name}
             aria-label="Your profile"
             onClick={() => onNavigate?.("profile")}
-            className="mt-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40"
+            className="mt-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40"
           >
             <Avatar name={user?.full_name} src={user?.avatar_url} size={36} />
           </button>
@@ -127,12 +127,12 @@ function RailButton({ icon, label, active, badge = 0, onClick }: {
       aria-current={active ? "page" : undefined}
       className={cn(
         "group relative flex h-10 w-10 items-center justify-center rounded-[11px] transition-colors duration-150",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40",
-        active ? "bg-teal-50 text-teal-500" : "text-ink-muted hover:bg-surface-sunk hover:text-ink",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40",
+        active ? "bg-accent-50 text-accent-500" : "text-ink-muted hover:bg-surface-sunk hover:text-ink",
       )}
     >
       {icon}
-      {active && <span className="absolute -start-[9px] h-5 w-[3px] rounded-e-full bg-teal-500" />}
+      {active && <span className="absolute -start-[9px] h-5 w-[3px] rounded-e-full bg-accent-500" />}
       {badge > 0 && (
         <span className="absolute -end-0.5 -top-0.5 flex h-[17px] min-w-[17px] items-center justify-center rounded-full bg-severe-fg px-1 text-[10px] font-bold text-white ring-2 ring-surface">
           {badge > 9 ? "9+" : badge}

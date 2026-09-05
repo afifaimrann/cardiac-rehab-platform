@@ -72,11 +72,11 @@ export function AssistantPanel({ patientId, patientName }: {
   }
 
   return (
-    <div className="flex h-[min(72vh,720px)] flex-col overflow-hidden rounded-[14px] border border-line bg-surface">
+    <div className="flex h-[min(70vh,640px)] flex-col overflow-hidden rounded-[14px] border border-line bg-surface lg:h-full lg:min-h-[420px]">
       <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-3.5">
         <div className="min-w-0">
           <p className="flex items-center gap-2 text-[14px] font-semibold text-ink">
-            <Sparkles size={15} className="text-teal-500" /> Ask about {patientName}
+            <Sparkles size={15} className="text-accent-500" /> Ask about {patientName}
           </p>
           <p className="mt-0.5 text-[12px] text-ink-muted">
             Reads this patient's record only. Not a second opinion — check anything you act on.
@@ -103,7 +103,7 @@ export function AssistantPanel({ patientId, patientName }: {
                   key={s}
                   type="button"
                   onClick={() => void ask(s)}
-                  className="w-full rounded-[10px] border border-line bg-surface-sunk/40 px-3.5 py-2.5 text-start text-[13px] text-ink-soft transition-colors duration-150 hover:border-teal-400 hover:bg-teal-50 hover:text-teal-500"
+                  className="w-full rounded-[10px] border border-line bg-surface-sunk/40 px-3.5 py-2.5 text-start text-[13px] text-ink-soft transition-colors duration-150 hover:border-accent-400 hover:bg-accent-50 hover:text-accent-500"
                 >
                   {s}
                 </button>
@@ -115,7 +115,7 @@ export function AssistantPanel({ patientId, patientName }: {
             {turns.map((t) => (
               <li key={t.id} className={cn(t.role === "user" && "flex justify-end")}>
                 {t.role === "user" ? (
-                  <p className="max-w-[80%] rounded-[14px] bg-teal-500 px-4 py-2.5 text-[14px] leading-relaxed text-white">
+                  <p className="max-w-[80%] rounded-[14px] bg-accent-500 px-4 py-2.5 text-[14px] leading-relaxed text-white">
                     {t.content}
                   </p>
                 ) : (
@@ -156,7 +156,7 @@ export function AssistantPanel({ patientId, patientName }: {
             rows={1}
             maxLength={2000}
             placeholder="Ask about this patient's record…"
-            className="max-h-32 min-h-[44px] flex-1 resize-y rounded-[11px] border border-line-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint focus:border-teal-400 focus:outline-none focus:ring-4 focus:ring-teal-400/12"
+            className="max-h-32 min-h-[44px] flex-1 resize-y rounded-[11px] border border-line-strong bg-surface px-3.5 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-faint focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-accent-400/12"
           />
           <Button onClick={() => void ask(draft)} disabled={thinking || !draft.trim()} className="h-[44px]">
             <Send size={15} />

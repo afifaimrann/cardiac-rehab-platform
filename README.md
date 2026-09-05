@@ -18,28 +18,47 @@ reversible migrations, and tests that assert the boundaries hold.
 ![CI](https://github.com/afifaimrann/cardiac-rehab-platform/actions/workflows/ci.yml/badge.svg)
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
 ![React 18](https://img.shields.io/badge/react-18-149eca)
-![Tests](https://img.shields.io/badge/tests-347%20passing-2b6340)
+![Tests](https://img.shields.io/badge/tests-349%20passing-186c3b)
 ![Licence](https://img.shields.io/badge/licence-MIT-lightgrey)
 
 ---
 
-### The patient
+**The patient's record.** What is next, what was flagged, and the trend behind
+it. The blood-pressure chart shows the hypertensive crisis on 30 August that
+raised the severe flag above it.
 
-|  |  |
-|---|---|
-| ![Patient overview](docs/screenshots/patient-overview.png) | ![Six-minute walk test](docs/screenshots/walk-test.png) |
-| **What is next, what was flagged, and the trend behind it.** The blood-pressure chart shows the hypertensive crisis on 30 Aug that raised the severe flag above it. | **The six-minute walk test, mid-walk.** The clock keeps running through a rest, as the protocol requires; rests and the oxygen nadir are captured by the timer rather than typed from memory afterwards. |
+![Patient overview](docs/screenshots/patient-overview.png)
 
-### The clinician
+**The six-minute walk test, mid-walk.** The clock keeps running through a rest,
+as the protocol requires. Rests and the oxygen nadir are captured by the timer
+rather than typed from memory afterwards.
 
-|  |  |
-|---|---|
-| ![Clinician caseload](docs/screenshots/caseload.png) | ![The clinician's assistant](docs/screenshots/assistant.png) |
-| **The caseload**, ordered by clinical urgency, beside a queue of flags raised automatically from patient data. | **The assistant**, answering from one patient's record. The row of chips under each answer says which parts of the record it actually read. |
-| ![One patient's record](docs/screenshots/patient-record.png) | ![Messaging](docs/screenshots/messages.png) |
-| **One patient, five tabs.** Record, assistant, messages, walk tests and appointments in one place. | **Messaging**, deliberately separate from the assistant: a patient must never be unsure whether they are writing to a person or to software. |
+![Six-minute walk test](docs/screenshots/walk-test.png)
 
----
+**The caseload**, ordered by clinical urgency, beside a queue of flags raised
+automatically from patient data.
+
+![Clinician caseload](docs/screenshots/caseload.png)
+
+**The clinician's assistant**, answering from one patient's record. The chips
+under each answer say which parts of the record it actually read.
+
+![The clinician's assistant](docs/screenshots/assistant.png)
+
+<details>
+<summary>Two more screens</summary>
+
+**One patient, five tabs** — record, assistant, messages, walk tests and
+appointments in one place.
+
+![One patient's record](docs/screenshots/patient-record.png)
+
+**Messaging**, deliberately separate from the assistant: a patient must never be
+unsure whether they are writing to a person or to software.
+
+![Messaging](docs/screenshots/messages.png)
+
+</details>
 
 ---
 
@@ -64,8 +83,9 @@ pip install -r requirements-dev.txt
 cp .env.example .env                                 # then set JWT_SECRET_KEY
 python -c "import secrets; print(secrets.token_urlsafe(48))"   # generate one
 
-alembic upgrade head          # create the schema
-python -m scripts.seed_demo   # optional: demo accounts and 28 days of history
+alembic upgrade head            # create the schema
+python -m scripts.embed_corpus  # REQUIRED: chunk and embed the guidance corpus
+python -m scripts.seed_demo     # optional: demo accounts and 28 days of history
 uvicorn app.main:app --reload
 
 # --- frontend (second terminal) ---
@@ -73,6 +93,15 @@ cd frontend
 npm install
 npm run dev                   # http://localhost:5173, proxies /api to :8000
 ```
+
+Without `embed_corpus` the assistant has nothing to retrieve and answers every
+question with "I don't have guidance on that". It downloads BAAI/bge-m3 on first
+run (~2.5 GB); `--backend hash` skips the download and gives deterministic
+nonsense embeddings, which is enough to see the plumbing work but not the
+answers.
+
+The schema and the corpus are separate concerns: dropping the database drops the
+corpus with it, and only this script puts it back.
 
 ### Demo accounts
 
@@ -160,7 +189,7 @@ Full reference: [API and authorisation](docs/api.md) ·
 
 ```bash
 cd backend && pytest
-# 347 passed, 1 xfailed in ~118s
+# 349 passed, 1 xfailed in ~116s
 ```
 
 Each test runs against a fresh in-memory SQLite database on a shared connection,

@@ -164,7 +164,7 @@ export function WalkTimer({ courseLength, onFinish }: {
             className="stroke-surface-sunk" />
           <circle cx="50" cy="50" r="45" fill="none" strokeWidth="6" strokeLinecap="round"
             className={cn("transition-[stroke-dashoffset] duration-200",
-              done ? "stroke-good-fg" : resting ? "stroke-moderate-fg" : "stroke-teal-500")}
+              done ? "stroke-good-fg" : resting ? "stroke-moderate-fg" : "stroke-accent-500")}
             strokeDasharray={2 * Math.PI * 45}
             strokeDashoffset={2 * Math.PI * 45 * (1 - progress)} />
         </svg>
@@ -245,7 +245,7 @@ export function WalkTimer({ courseLength, onFinish }: {
             type="number" min={0} max={courseLength} value={partial || ""}
             onChange={(e) => setPartial(Number(e.target.value) || 0)}
             placeholder="0"
-            className="mt-1 h-9 w-full rounded-[9px] border border-line-strong bg-surface px-3 text-sm tnum text-ink focus:border-teal-400 focus:outline-none focus:ring-4 focus:ring-teal-400/12"
+            className="mt-1 h-9 w-full rounded-[9px] border border-line-strong bg-surface px-3 text-sm tnum text-ink focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-accent-400/12"
           />
         </label>
       </div>
@@ -282,7 +282,7 @@ export function WalkTimer({ courseLength, onFinish }: {
             }}
             placeholder="96"
             aria-label="Oxygen saturation reading"
-            className="h-10 w-24 rounded-[9px] border border-line-strong bg-surface px-3 text-sm tnum text-ink focus:border-teal-400 focus:outline-none focus:ring-4 focus:ring-teal-400/12"
+            className="h-10 w-24 rounded-[9px] border border-line-strong bg-surface px-3 text-sm tnum text-ink focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-accent-400/12"
           />
           <Button type="button" variant="secondary" className="flex-1" onClick={logSpo2}
             disabled={!spo2Valid}>

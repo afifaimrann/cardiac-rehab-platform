@@ -40,16 +40,16 @@ export function ClinicianAssistantPage({ initialPatientId }: {
         subtitle="Ask about any patient on your caseload — it reads their record, not the internet"
       />
 
-      <div className="flex-1 overflow-y-auto py-6">
-        <div className={`${CONTENT} grid items-start gap-5 lg:grid-cols-[280px_1fr]`}>
-          <Card className="h-fit">
+      <div className="flex-1 overflow-y-auto py-6 lg:overflow-hidden">
+        <div className={`${CONTENT} grid gap-5 lg:h-full lg:grid-cols-[280px_1fr]`}>
+          <Card className="flex flex-col lg:max-h-full lg:overflow-hidden">
             <p className="border-b border-line px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-faint">
               Ask about
             </p>
             {loading ? <Spinner /> : caseload.length === 0 ? (
               <EmptyState icon={<Users size={20} />} title="No patients assigned" />
             ) : (
-              <ul className="max-h-[60vh] overflow-y-auto p-2">
+              <ul className="max-h-[50vh] overflow-y-auto p-2 lg:max-h-none lg:flex-1">
                 {caseload.map((p) => (
                   <li key={p.patient_id}>
                     <button
@@ -58,16 +58,16 @@ export function ClinicianAssistantPage({ initialPatientId }: {
                       aria-current={selected?.patient_id === p.patient_id ? "true" : undefined}
                       className={cn(
                         "flex w-full items-center gap-3 rounded-[10px] px-2.5 py-2.5 text-start transition-colors duration-150",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400/40",
                         selected?.patient_id === p.patient_id
-                          ? "bg-teal-50" : "hover:bg-surface-sunk/60",
+                          ? "bg-accent-50" : "hover:bg-surface-sunk/60",
                       )}
                     >
                       <Avatar name={p.full_name} size={34} />
                       <span className="min-w-0 flex-1">
                         <span className={cn(
                           "block truncate text-[13.5px] font-medium",
-                          selected?.patient_id === p.patient_id ? "text-teal-500" : "text-ink",
+                          selected?.patient_id === p.patient_id ? "text-accent-500" : "text-ink",
                         )}>
                           {p.full_name}
                         </span>
@@ -87,7 +87,7 @@ export function ClinicianAssistantPage({ initialPatientId }: {
             )}
           </Card>
 
-          <div className="min-w-0">
+          <div className="flex min-w-0 flex-col lg:min-h-0">
             {selected ? (
               <AssistantPanel
                 key={selected.patient_id}
