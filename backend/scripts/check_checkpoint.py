@@ -51,7 +51,9 @@ def main() -> int:
             return 1
 
         print("\nhead weight statistics:")
-        import torch
+        # Imported for the side effect of failing here, with a clear
+        # traceback, rather than deep inside the tensor loop below.
+        import torch  # noqa: F401
 
         for key in head:
             tensor = f.get_tensor(key).float()

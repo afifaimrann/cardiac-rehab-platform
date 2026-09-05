@@ -5,7 +5,6 @@ import pytest
 
 from app.services.corpus import (
     MAX_CHARS, CorpusError, chunk_text, load_corpus, load_document,
-    passages_from_documents,
 )
 
 VALID = {

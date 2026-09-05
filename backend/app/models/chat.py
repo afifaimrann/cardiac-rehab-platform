@@ -1,7 +1,6 @@
 """Voice/text Q&A transcripts."""
 from __future__ import annotations
 
-from datetime import datetime
 from typing import TYPE_CHECKING, Any, List, Optional
 
 from sqlalchemy import Enum, ForeignKey, Index, String, Text
@@ -9,7 +8,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.types import JSON
 
-from app.db.base import Base, Timestamped, UUIDPrimaryKey, utcnow
+from app.db.base import Base, Timestamped, UUIDPrimaryKey
 from app.models.enums import MessageRole
 
 if TYPE_CHECKING:

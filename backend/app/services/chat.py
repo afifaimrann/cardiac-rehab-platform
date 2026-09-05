@@ -22,7 +22,6 @@ from app.core.config import settings
 from app.services import guardrails
 from app.services.dense import DenseRetriever
 from app.services.fusion import reciprocal_rank_fusion
-from app.services.knowledge import Passage
 from app.services.language import Script, detect_script
 from app.services.reranking import get_reranker, rerank
 from app.services.retrieval import MIN_SCORE_RATIO, Hit, retriever

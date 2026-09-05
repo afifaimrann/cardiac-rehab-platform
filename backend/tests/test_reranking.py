@@ -6,8 +6,6 @@ by `scripts/retrieval_debug.py --rerank` against the live model.
 """
 from typing import List, Sequence
 
-import pytest
-
 from app.services.knowledge import Passage
 from app.services.reranking import rerank
 from app.services.retrieval import Hit

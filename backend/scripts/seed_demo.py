@@ -58,7 +58,8 @@ async def main() -> None:
     now = datetime.now(timezone.utc)
 
     async with AsyncSessionLocal() as db:
-        admin = await get_or_create_user(db, "admin@example.com", "Admin User", UserRole.ADMIN)
+        # Created for the demo sign-in list; nothing below needs the object.
+        await get_or_create_user(db, "admin@example.com", "Admin User", UserRole.ADMIN)
         clinician = await get_or_create_user(
             db, "dr.chowdhury@example.com", "Dr. Chowdhury", UserRole.CLINICIAN
         )
