@@ -146,12 +146,17 @@ function RailButton({ icon, label, active, badge = 0, onClick }: {
  *  grid, or the page reads as two designs stacked. */
 export const CONTENT = "mx-auto w-full max-w-[1140px] px-8";
 
-export function PageHeader({ title, subtitle, action }: {
-  title: string; subtitle?: string; action?: ReactNode;
+/** For tables. 1140px is a reading measure, chosen for prose and forms; a
+ *  caseload has five columns and a queue beside it, and squeezing that into a
+ *  measure meant for paragraphs is what makes a table scroll sideways. */
+export const CONTENT_WIDE = "mx-auto w-full max-w-[1400px] px-8";
+
+export function PageHeader({ title, subtitle, action, wide }: {
+  title: string; subtitle?: string; action?: ReactNode; wide?: boolean;
 }) {
   return (
     <header className="border-b border-line">
-      <div className={`${CONTENT} flex items-end justify-between gap-6 py-7`}>
+      <div className={`${wide ? CONTENT_WIDE : CONTENT} flex items-end justify-between gap-6 py-7`}>
         <div className="min-w-0">
           <h1 className="font-serif text-[30px] leading-[1.15] tracking-[-0.02em] text-ink">{title}</h1>
           {subtitle && <p className="mt-2 text-[14px] text-ink-muted">{subtitle}</p>}

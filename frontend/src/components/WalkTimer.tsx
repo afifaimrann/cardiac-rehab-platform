@@ -146,6 +146,14 @@ export function WalkTimer({ courseLength, onFinish }: {
   const progress = elapsed / TOTAL_SECONDS;
   const nadir = spo2Log.length ? Math.min(...spo2Log.map((r) => r.value)) : null;
 
+  // Rest time is committed to state when a rest ends, so a rest still running
+  // contributed nothing to the total — which is exactly when someone is
+  // watching it. `elapsed` re-renders four times a second while the clock
+  // runs, so deriving the live figure here is enough to keep it moving.
+  const restSecondsShown = resting && restStartedAt.current
+    ? restSeconds + Math.round((Date.now() - restStartedAt.current) / 1000)
+    : restSeconds;
+
   return (
     <div className="flex flex-col items-center">
       {/* A ring rather than a bar: it reads as a clock, and the remaining arc is
@@ -296,9 +304,12 @@ export function WalkTimer({ courseLength, onFinish }: {
         )}
       </div>
 
-      {(restCount > 0 || restSeconds > 0) && (
-        <p className="mt-3 text-[12.5px] text-ink-muted">
-          {restCount} rest{restCount === 1 ? "" : "s"} · {restSeconds}s stopped in total
+      {(restCount > 0 || restSecondsShown > 0) && (
+        <p className={cn(
+          "mt-3 text-[12.5px]",
+          resting ? "text-moderate-fg" : "text-ink-muted",
+        )}>
+          {restCount} rest{restCount === 1 ? "" : "s"} · {restSecondsShown}s stopped in total
         </p>
       )}
     </div>

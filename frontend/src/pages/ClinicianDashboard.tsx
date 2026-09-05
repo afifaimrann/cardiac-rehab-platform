@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Check, ChevronRight, Inbox, ShieldAlert, Sparkles, Users } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { ClinicianPatientPage } from "@/pages/ClinicianPatient";
-import { CONTENT, PageHeader } from "@/components/AppShell";
+import { CONTENT_WIDE, PageHeader } from "@/components/AppShell";
 import {
   Badge, Button, Card, CardHeader, EmptyState, SeverityBadge, Spinner,
 } from "@/components/exports";
@@ -39,6 +39,7 @@ export function ClinicianDashboard({ onAskAbout }: {
   return (
     <div className="flex h-full flex-col overflow-hidden">
       <PageHeader
+        wide
         title="Caseload"
         subtitle={loading ? undefined
           : `${caseload.length} patients · ${flags.length} open flags${urgent ? ` · ${urgent} needing urgent review` : ""}`}
@@ -46,7 +47,7 @@ export function ClinicianDashboard({ onAskAbout }: {
 
       <div className="flex-1 overflow-y-auto py-7">
         {loading ? <Spinner /> : (
-          <div className={`${CONTENT} grid items-start gap-5 xl:grid-cols-[1fr_360px]`}>
+          <div className={`${CONTENT_WIDE} grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_340px]`}>
             <div className="min-w-0 space-y-5">
               <Card>
                 <CardHeader title="Patients" subtitle="Sorted by clinical urgency" />
@@ -58,11 +59,11 @@ export function ClinicianDashboard({ onAskAbout }: {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-line text-[11px] uppercase tracking-[0.05em] text-ink-faint">
-                          <th className="px-5 py-2.5 text-start font-semibold">Patient</th>
-                          <th className="px-5 py-2.5 text-start font-semibold">Flags</th>
-                          <th className="px-5 py-2.5 text-start font-semibold">Adherence</th>
-                          <th className="px-5 py-2.5 text-start font-semibold">Last reading</th>
-                          <th className="px-5 py-2.5 text-start font-semibold">Assistant</th>
+                          <th className="whitespace-nowrap px-4 py-2.5 text-start font-semibold">Patient</th>
+                          <th className="whitespace-nowrap px-4 py-2.5 text-start font-semibold">Flags</th>
+                          <th className="whitespace-nowrap px-4 py-2.5 text-start font-semibold">Adherence</th>
+                          <th className="whitespace-nowrap px-4 py-2.5 text-start font-semibold">Last seen</th>
+                          <th className="whitespace-nowrap px-4 py-2.5 text-start font-semibold">Assistant</th>
                           <th className="px-3 py-2.5" />
                         </tr>
                       </thead>
@@ -70,18 +71,19 @@ export function ClinicianDashboard({ onAskAbout }: {
                         {caseload.map((p) => (
                           <tr key={p.patient_id} onClick={() => setSelected(p)}
                             className="cursor-pointer transition-colors duration-150 hover:bg-surface-sunk/50">
-                            <td className="px-5 py-3">
-                              <div className="flex items-center gap-3">
+                            <td className="px-4 py-3">
+                              <div className="flex min-w-[210px] items-center gap-3">
                                 <Avatar name={p.full_name} size={32} />
                                 <div className="min-w-0">
-                                  <p className="font-medium text-ink">{p.full_name}</p>
-                                  <p className="mt-0.5 text-[12px] text-ink-faint">
+                                  <p className="truncate font-medium text-ink">{p.full_name}</p>
+                                  <p className="mt-0.5 truncate text-[12px] text-ink-faint"
+                                     title={p.primary_condition ?? undefined}>
                                     {p.primary_condition ?? "No condition recorded"}
                                   </p>
                                 </div>
                               </div>
                             </td>
-                            <td className="px-5 py-3">
+                            <td className="px-4 py-3">
                               {p.open_flags === 0 ? <Badge tone="good">clear</Badge> : (
                                 <div className="flex items-center gap-2">
                                   <span className="tnum text-[13px] font-semibold text-ink">{p.open_flags}</span>
@@ -89,17 +91,18 @@ export function ClinicianDashboard({ onAskAbout }: {
                                 </div>
                               )}
                             </td>
-                            <td className="px-5 py-3">
+                            <td className="whitespace-nowrap px-4 py-3">
                               {p.adherence_pct == null
                                 ? <span className="text-[13px] text-ink-faint">no plan</span>
                                 : <AdherenceBar pct={p.adherence_pct} />}
                             </td>
-                            <td className="px-5 py-3 text-[13px] text-ink-muted">{relativeTime(p.last_vitals_at)}</td>
-                            <td className="px-5 py-3">
-                              {/* Stops the row click: this is a different
-                                  destination, not a shortcut to the same one. */}
+                            <td className="whitespace-nowrap px-4 py-3 text-[13px] text-ink-muted">{relativeTime(p.last_vitals_at)}</td>
+                            <td className="px-4 py-3">
+                              {/* stopPropagation: the assistant is a different
+                                  destination, not a shortcut to the row's. */}
                               <Button
                                 variant="secondary" size="sm"
+                                className="whitespace-nowrap"
                                 onClick={(e) => { e.stopPropagation(); onAskAbout?.(p.patient_id); }}
                               >
                                 <Sparkles size={14} /> Ask

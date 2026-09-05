@@ -23,12 +23,21 @@ reversible migrations, and tests that assert the boundaries hold.
 
 ---
 
+### The patient
+
 |  |  |
 |---|---|
 | ![Patient overview](docs/screenshots/patient-overview.png) | ![Six-minute walk test](docs/screenshots/walk-test.png) |
-| **The patient's record.** What is next, what was flagged, and the trend behind it. | **The six-minute walk test.** The timer captures rests and the oxygen nadir so they are not typed from memory afterwards. |
+| **What is next, what was flagged, and the trend behind it.** The blood-pressure chart shows the hypertensive crisis on 30 Aug that raised the severe flag above it. | **The six-minute walk test, mid-walk.** The clock keeps running through a rest, as the protocol requires; rests and the oxygen nadir are captured by the timer rather than typed from memory afterwards. |
+
+### The clinician
+
+|  |  |
+|---|---|
 | ![Clinician caseload](docs/screenshots/caseload.png) | ![The clinician's assistant](docs/screenshots/assistant.png) |
-| **The caseload**, ordered by clinical urgency, with a review queue of flags raised automatically. | **The assistant**, answering from one patient's record and showing which parts of it were read. |
+| **The caseload**, ordered by clinical urgency, beside a queue of flags raised automatically from patient data. | **The assistant**, answering from one patient's record. The row of chips under each answer says which parts of the record it actually read. |
+| ![One patient's record](docs/screenshots/patient-record.png) | ![Messaging](docs/screenshots/messages.png) |
+| **One patient, five tabs.** Record, assistant, messages, walk tests and appointments in one place. | **Messaging**, deliberately separate from the assistant: a patient must never be unsure whether they are writing to a person or to software. |
 
 ---
 
